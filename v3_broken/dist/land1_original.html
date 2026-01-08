@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Omni — Local AI Git enrichment</title>
+
+  <!-- Fonts (matches the feel of provided examples) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      /* shadcn-ish zinc palette */
+      --bg: #000;
+      --panel: rgba(9,9,11,0.78);
+      --panel-2: rgba(9,9,11,0.90);
+      --card: rgba(9,9,11,0.84);
+      --border: rgba(39,39,42,0.95);
+      --border-soft: rgba(39,39,42,0.70);
+      --text: rgba(250,250,250,0.92);
+      --muted: rgba(161,161,170,0.95);
+      --muted2: rgba(113,113,122,0.95);
+
+      --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
+
+      --r: 14px;
+      --ease: cubic-bezier(.2,.8,.2,1);
+
+      --shadow: 0 25px 50px -12px rgba(0,0,0,0.65);
+
+      --btn: rgba(0,0,0,0.20);
+      --btn2: rgba(255,255,255,0.06);
+      --btnBorder: rgba(39,39,42,0.95);
+      --btnBorderHover: rgba(255,255,255,0.16);
+
+      --accent: rgba(255,255,255,0.92);
+      --accentText: #000;
+
+      --ok: rgba(34,197,94,0.95);
+      --warn: rgba(245,158,11,0.95);
+      --bad: rgba(248,113,113,0.95);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin: 0;
+      background: #000;
+      color: var(--text);
+      font-family: var(--sans);
+      overflow-x: hidden;
+    }
+
+    /* Dot-grid + subtle glow (release3 vibe) */
+    .bg{
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(1100px 700px at 70% 20%, rgba(255,255,255,0.06), transparent 60%),
+        radial-gradient(900px 650px at 15% 75%, rgba(255,255,255,0.045), transparent 62%),
+        radial-gradient(rgba(255,255,255,0.085) 1px, transparent 1px);
+      background-size: auto, auto, 24px 24px;
+      opacity: 1;
+    }
+
+    /* Subtle CRT scanlines */
+    .scanlines::before{
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.012),
+        rgba(255,255,255,0.012) 1px,
+        rgba(0,0,0,0) 3px,
+        rgba(0,0,0,0) 6px
+      );
+      mix-blend-mode: overlay;
+      opacity: 0.18;
+    }
+
+    /* tiny vignette */
+    .vignette::after{
+      content: "";
+      position: fixed;
+      inset: -20%;
+      pointer-events: none;
+      z-index: 1;
+      background: radial-gradient(closest-side, transparent 55%, rgba(0,0,0,0.62) 100%);
+      opacity: 0.7;
+      transform: translateZ(0);
+    }
+
+    .wrap{
+      position: relative;
+      z-index: 2;
+      min-height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 42px 18px 34px;
+    }
+
+    .container{
+      width: 100%;
+      max-width: 980px;
+      display: grid;
+      gap: 18px;
+    }
+
+    header{
+      display: grid;
+      gap: 10px;
+      text-align: center;
+      padding: 10px 0 4px;
+    }
+
+    .logo{
+      font-family: var(--mono);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      font-size: 18px;
+      color: rgba(250,250,250,0.95);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .title{
+      font-family: var(--sans);
+      font-size: clamp(16px, 2.5vw, 20px);
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      font-weight: 500;
+      margin: 0;
+      color: rgba(255,255,255,1);
+    }
+
+    .subtitle{
+      margin: 0 auto;
+      max-width: 70ch;
+      font-size: 12px;
+      color: var(--muted2);
+      line-height: 1.55;
+      font-family: var(--mono);
+      letter-spacing: 0.02em;
+    }
+    
+    .subtitle strong{
+      color: rgba(255,255,255,0.92);
+      font-weight: 500;
+    }
+
+    .actionsRow{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      padding-top: 8px;
+    }
+
+    .btn{
+      appearance: none;
+      border: 1px solid var(--btnBorder);
+      background: var(--btn);
+      color: rgba(250,250,250,0.65);
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform 120ms var(--ease), background 150ms var(--ease), border-color 150ms var(--ease);
+      user-select: none;
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn:hover{
+      background: rgba(255,255,255,0.06);
+      border-color: var(--btnBorderHover);
+    }
+    .btn:active{ transform: translateY(1px); }
+
+    .btn.primary{
+      background: rgba(255,255,255,0.92);
+      color: #000;
+      border-color: rgba(255,255,255,0.25);
+      box-shadow: 0 10px 30px rgba(255,255,255,0.08);
+    }
+    .btn.primary:hover{ background: rgba(255,255,255,0.85); }
+
+    .btn.active{
+      border-color: rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.08);
+      color: rgba(250,250,250,0.88);
+    }
+
+    /* Main card - no border */
+    .card{
+      /* border removed */
+      border-radius: var(--r);
+      background: transparent;
+      overflow: visible;
+    }
+
+    .cardInner{
+      padding: 0;
+      display: grid;
+      gap: 20px;
+    }
+
+    /* Terminal window (macOS-ish) */
+    .terminal{
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(9,9,11,0.74);
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .termTop{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.28);
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted2);
+      letter-spacing: 0.02em;
+    }
+
+    .traffic{
+      display: inline-flex;
+      gap: 7px;
+      align-items: center;
+    }
+    .dot{ width: 12px; height: 12px; border-radius: 999px; }
+    .dot.red{ background: #FF5F57; }
+    .dot.yellow{ background: #FEBC2E; }
+    .dot.green{ background: #28C840; }
+
+    .termTitle{
+      opacity: 0.85;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-left: 10px;
+      padding-right: 10px;
+      text-align: center;
+      flex: 1;
+    }
+
+    .termBody{
+      padding: 14px 14px 18px;
+      font-family: var(--mono);
+      font-size: 14px;
+      line-height: 1.5;
+      color: rgba(250,250,250,0.88);
+      height: 420px;
+      overflow: auto;
+      position: relative;
+      white-space: pre-wrap;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .termBody::before{
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+      opacity: 0.16;
+    }
+
+    .line{ position: relative; display: block; margin: 3px 0; }
+    .prompt{ color: rgba(161,161,170,0.95); }
+    .cmd{ color: rgba(250,250,250,0.95); }
+    .muted{ color: rgba(113,113,122,0.95); }
+    .ok{ color: rgba(220,255,236,0.92); }
+    .warn{ color: rgba(255,245,223,0.92); }
+    .bad{ color: rgba(255,228,228,0.92); }
+
+    .caret{
+      display: inline-block;
+      width: 8px;
+      height: 16px;
+      background: rgba(250,250,250,0.65);
+      margin-left: 3px;
+      vertical-align: -3px;
+      animation: blink 1s steps(2, end) infinite;
+      border-radius: 2px;
+    }
+    @keyframes blink { 0%,49%{opacity:1;} 50%,100%{opacity:0;} }
+
+    /* Install block - centered */
+    .install{
+      display: grid;
+      gap: 10px;
+      padding: 0;
+      max-width: 980px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .tiny{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted2);
+      letter-spacing: 0.02em;
+      text-align: center;
+    }
+
+    .installRow{
+      display: flex;
+      gap: 0;
+      align-items: stretch;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .codePill{
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.18);
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      width: fit-content;
+    }
+
+    .code{
+      font-family: var(--mono);
+      font-size: 13px;
+      color: rgba(250,250,250,0.90);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .copyBtn{
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: rgba(250,250,250,0.88);
+      padding: 9px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      transition: background 150ms var(--ease), transform 120ms var(--ease), border-color 150ms var(--ease);
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      margin-left: 10px;
+    }
+    .copyBtn:hover{
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.18);
+    }
+    .copyBtn:active{ transform: translateY(1px); }
+
+    .badge{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0;
+      border-radius: 0;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(161,161,170,0.95);
+      border: none;
+      background: transparent;
+      width: fit-content;
+      margin: 0 auto;
+      justify-content: center;
+    }
+    .badge strong{ color: rgba(250,250,250,0.92); font-weight: 500; }
+
+    footer{
+      text-align: center;
+      color: rgba(113,113,122,0.95);
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 0;
+      margin-top: -8px;
+    }
+    
+    footer a{
+      color: rgba(255,255,255,0.92);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    
+    footer a:hover{
+      color: rgba(255,255,255,1);
+    }
+
+    /* nicer scrollbar */
+    ::-webkit-scrollbar{ width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track{ background: transparent; }
+    ::-webkit-scrollbar-thumb{ background: #3f3f46; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover{ background: #52525b; }
+
+    @media (max-width: 520px){
+      .container{ padding: 0 12px; }
+    }
+  </style>
+<script type="module" crossorigin src="./land1_original-wtcsvjwp.js"></script></head>
+
+<body class="scanlines vignette">
+  <div class="bg" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <div class="container">
+      <header>
+        <div class="logo" aria-label="Omni logo">
+          <span>omni</span>
+        </div>
+        <h1 class="title">Local AI Git enrichment</h1>
+        <p class="subtitle">Total downloads: <strong>1341</strong></p>
+
+        <div class="actionsRow" role="tablist" aria-label="Generate actions">
+          <button class="btn active" id="btnCommit" data-scenario="commit" role="tab" aria-selected="true">
+            Generate Commit
+          </button>
+          <button class="btn" id="btnPR" data-scenario="pr" role="tab" aria-selected="false">
+            Generate PR
+          </button>
+          <button class="btn" id="btnRelease" data-scenario="release" role="tab" aria-selected="false">
+            Generate Release
+          </button>
+        </div>
+      </header>
+
+      <main class="card">
+        <div class="cardInner">
+          <section class="terminal" aria-label="Terminal demo">
+            <div class="termTop">
+              <div class="traffic" aria-hidden="true">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div class="termTitle" id="termTitle">projects/omni — zsh</div>
+            </div>
+
+            <div class="termBody" id="term" aria-live="polite"></div>
+          </section>
+
+          <section class="install" aria-label="Installation">
+            <div class="tiny">(Arm64 / x64) Linux / Windows / Mac</div>
+            
+            <div class="installRow">
+              <div class="codePill" role="group" aria-label="Install command">
+                <div class="code">
+                  <span class="muted">Installation:</span>
+                  <span id="installCmd">curl https://edgeleap.github.io/omni/install.sh</span>
+                </div>
+                <button class="copyBtn" id="copyBtn" type="button" aria-label="Copy install command">
+                  <span id="copyIcon" aria-hidden="true">⧉</span>
+                  <span id="copyLabel">Copy</span>
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <footer>
+        <a href="https://edgeleap.github.io/" target="_blank" rel="noopener noreferrer">EdgeLeap</a> © 2025
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // --- tiny helpers ---
+    const term = document.getElementById("term");
+    const termTitle = document.getElementById("termTitle");
+
+    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+    const esc = (s) => String(s)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;");
+
+    function addLineHTML(html){
+      const div = document.createElement("div");
+      div.className = "line";
+      div.innerHTML = html;
+      term.appendChild(div);
+      term.scrollTop = term.scrollHeight;
+      return div;
+    }
+
+    async function typeCommand(prompt, command, speed=16){
+      // render row with caret while typing
+      const row = document.createElement("div");
+      row.className = "line";
+      row.innerHTML =
+        `<span class="prompt">${esc(prompt)}</span>` +
+        `<span class="cmd" data-cmd></span>` +
+        `<span class="caret" data-caret></span>`;
+      term.appendChild(row);
+
+      const cmdNode = row.querySelector("[data-cmd]");
+      const caret = row.querySelector("[data-caret]");
+      for (let i=0;i<command.length;i++){
+        cmdNode.textContent += command[i];
+        term.scrollTop = term.scrollHeight;
+        await sleep(speed + Math.random()*10);
+      }
+      await sleep(160);
+      caret.remove();
+      term.scrollTop = term.scrollHeight;
+    }
+
+    async function typeOutput(lines, delay=120){
+      for (const l of lines){
+        addLineHTML(l);
+        await sleep(delay);
+      }
+    }
+
+    function clearTerm(){
+      term.innerHTML = "";
+    }
+
+    // --- scenarios (minimal but convincing) ---
+    const scenarios = {
+      commit: {
+        title: "projects/omni — zsh",
+        run: async () => {
+          clearTerm();
+          await sleep(120);
+          await typeCommand("edgeleap@local omni % ", "git status", 14);
+          await sleep(180);
+          await typeOutput([
+            `<span class="muted">On branch</span> <span class="cmd">feat/local-ai</span>`,
+            `<span class="muted">Changes not staged for commit:</span>`,
+            `<span class="warn">M</span> <span class="cmd">src/enrich.ts</span>`,
+            `<span class="warn">M</span> <span class="cmd">src/cli.ts</span>`,
+            `<span class="ok">A</span> <span class="cmd">docs/usage.md</span>`,
+            ``
+          ], 100);
+
+          await typeCommand("edgeleap@local omni % ", "git add .", 14);
+          await sleep(220);
+          await typeCommand("edgeleap@local omni % ", "git commit -m omni", 14);
+          await sleep(260);
+
+          await typeOutput([
+            `<span class="muted">omni</span> Detecting staged changes…`,
+            `<span class="muted">omni</span> Drafting commit message enrichment…`,
+            `<span class="ok">omni</span> Commit created: <span class="cmd">feat(enrich): generate localized context for diffs</span>`,
+            `<span class="muted">omni</span> 3 files changed · risk: low`,
+          ], 140);
+
+          await sleep(220);
+          addLineHTML(`<span class="prompt">edgeleap@local omni % </span><span class="cmd"></span><span class="caret"></span>`);
+        }
+      },
+
+      pr: {
+        title: "projects/omni — zsh",
+        run: async () => {
+          clearTerm();
+          await sleep(120);
+          await typeCommand("edgeleap@local omni % ", "omni pr --generate", 14);
+          await sleep(250);
+
+          await typeOutput([
+            `<span class="muted">omni</span> Reading branch diff vs <span class="cmd">main</span>…`,
+            `<span class="muted">omni</span> Summarizing changes and extracting risks…`,
+            `<span class="muted">omni</span> Building PR description with file highlights…`,
+            ``,
+            `<span class="cmd">Title:</span> <span class="ok">feat: local enrichment pipeline for git metadata</span>`,
+            `<span class="cmd">Body:</span>`,
+            `<span class="muted">- Adds local inference adapter for commit/PR context</span>`,
+            `<span class="muted">- Improves changelog extraction</span>`,
+            `<span class="muted">- Includes usage docs and install guide</span>`,
+            ``,
+            `<span class="ok">omni</span> Ready to open PR (dry-run).`,
+          ], 120);
+
+          await sleep(220);
+          addLineHTML(`<span class="prompt">edgeleap@local omni % </span><span class="cmd"></span><span class="caret"></span>`);
+        }
+      },
+
+      release: {
+        title: "projects/omni — zsh",
+        run: async () => {
+          clearTerm();
+          await sleep(120);
+          await typeCommand("edgeleap@local omni % ", "omni release --generate", 14);
+          await sleep(250);
+
+          await typeOutput([
+            `<span class="muted">omni</span> Collecting commits since last tag…`,
+            `<span class="muted">omni</span> Grouping changes (feat/fix/docs)…`,
+            `<span class="muted">omni</span> Drafting release notes…`,
+            ``,
+            `<span class="cmd">Next tag:</span> <span class="ok">v0.7.0</span>`,
+            `<span class="cmd">Highlights:</span>`,
+            `<span class="muted">- Local AI enrichment for commit + PR text</span>`,
+            `<span class="muted">- Improved terminal UX and copy-to-clipboard install</span>`,
+            `<span class="muted">- Docs and examples for segmentation flow</span>`,
+            ``,
+            `<span class="ok">omni</span> Release draft ready (not published).`,
+          ], 120);
+
+          await sleep(220);
+          addLineHTML(`<span class="prompt">edgeleap@local omni % </span><span class="cmd"></span><span class="caret"></span>`);
+        }
+      }
+    };
+
+    // --- button wiring ---
+    const buttons = Array.from(document.querySelectorAll("[data-scenario]"));
+    let activeScenario = "commit";
+    let running = false;
+
+    function setActiveScenario(name){
+      activeScenario = name;
+      buttons.forEach(b => {
+        const on = b.dataset.scenario === name;
+        b.classList.toggle("active", on);
+        b.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      termTitle.textContent = scenarios[name].title;
+    }
+
+    async function runScenario(name){
+      if (running) return;
+      running = true;
+      setActiveScenario(name);
+      try{
+        await scenarios[name].run();
+      } finally {
+        running = false;
+      }
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => runScenario(btn.dataset.scenario));
+    });
+
+    // Keyboard shortcuts: 1/2/3
+    window.addEventListener("keydown", (e) => {
+      if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) return;
+      if (e.key === "1") runScenario("commit");
+      if (e.key === "2") runScenario("pr");
+      if (e.key === "3") runScenario("release");
+    });
+
+    // --- copy install command ---
+    const copyBtn = document.getElementById("copyBtn");
+    const copyLabel = document.getElementById("copyLabel");
+    const installCmd = document.getElementById("installCmd");
+
+    let copyTimer = null;
+    copyBtn.addEventListener("click", async () => {
+      const text = "curl https://edgeleap.github.io/omni/install.sh";
+      try{
+        await navigator.clipboard.writeText(text);
+        copyLabel.textContent = "Copied";
+        clearTimeout(copyTimer);
+        copyTimer = setTimeout(() => (copyLabel.textContent = "Copy"), 1200);
+      } catch {
+        // fallback
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+        copyLabel.textContent = "Copied";
+        clearTimeout(copyTimer);
+        copyTimer = setTimeout(() => (copyLabel.textContent = "Copy"), 1200);
+      }
+    });
+
+    // initial run
+    runScenario(activeScenario);
+  </script>
+</body>
+</html>
+ 

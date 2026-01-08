@@ -1,0 +1,10 @@
+{
+  "name": "omni-landing",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun ./src/**/*.html",
+    "build": "bun build ./src/**/*.html --outdir=dist --minify",
+    "preview": "bun ./dist/**/*.html"
+  }
+}

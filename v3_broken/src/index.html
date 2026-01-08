@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Omni Landing (Local)</title>
+
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="module" src="./app.ts"></script>
+  </head>
+
+  <body>
+    <div class="bg" aria-hidden="true"></div>
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <div class="shell">
+      <header class="header">
+        <div class="brand">
+          <div class="logo">omni</div>
+          <div class="title">Local AI Git enrichment</div>
+        </div>
+
+        <div class="tabs" role="tablist" aria-label="Views">
+          <button class="tab active" data-view="commit" role="tab" aria-selected="true">
+            Generate Commit <span class="kbd">1</span>
+          </button>
+          <button class="tab" data-view="pr" role="tab" aria-selected="false">
+            Generate PR <span class="kbd">2</span>
+          </button>
+          <button class="tab" data-view="release" role="tab" aria-selected="false">
+            Generate Release <span class="kbd">3</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="stage" aria-label="App views">
+        <div class="frameWrap">
+          <iframe id="frame-commit" class="frame show" title="Omni Commit" loading="eager"></iframe>
+          <iframe id="frame-pr" class="frame" title="Omni Pull Request" loading="lazy"></iframe>
+          <iframe id="frame-release" class="frame" title="Omni Release" loading="lazy"></iframe>
+        </div>
+
+        <div class="hint">Use #commit / #pr / #release for deep links.</div>
+      </main>
+    </div>
+  </body>
+</html>
