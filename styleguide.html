@@ -1,0 +1,2032 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Omni — Style Guide</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* =========================================================
+       Base reset
+       ========================================================= */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* =========================================================
+       Design tokens — DARK MODE (default)
+       ========================================================= */
+    :root,
+    [data-theme="dark"] {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #09090b;
+      --bg-tertiary: #141414;
+      --bg-hover: #1a1a1a;
+      --border: #27272a;
+      --border-light: #3f3f46;
+
+      --text-primary: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+
+      --accent: #fafafa;
+      --accent-dim: rgba(255,255,255,0.08);
+
+      --green: #22c55e;
+      --amber: #f59e0b;
+      --orange: #fb923c;
+      --red: #ef4444;
+
+      --shadow: 0 25px 50px -12px rgba(0,0,0,0.65);
+
+      /* Surfaces */
+      --surface-shell: rgba(9,9,11,0.88);
+      --surface-card: rgba(0,0,0,0.18);
+      --surface-card-head: rgba(0,0,0,0.16);
+      --surface-preview: rgba(0,0,0,0.22);
+      --surface-code: rgba(0,0,0,0.28);
+      --surface-input: rgba(0,0,0,0.25);
+      --surface-btn: rgba(0,0,0,0.22);
+      --surface-dropdown: rgba(9,9,11,0.96);
+      --surface-overlay-bg: rgba(0,0,0,0.70);
+      --surface-overlay: rgba(9,9,11,0.95);
+      --surface-status-bar: rgba(0,0,0,0.35);
+      --surface-nav: rgba(0,0,0,0.16);
+
+      /* Scanline effect */
+      --scanline-color: rgba(255,255,255,0.012);
+      --scanline-blend: overlay;
+      --scanline-opacity: 0.18;
+
+      /* Body gradient */
+      --body-gradient:
+        radial-gradient(1100px 700px at 70% 20%, rgba(255,255,255,0.04), transparent 60%),
+        radial-gradient(900px 650px at 15% 75%, rgba(34,197,94,0.04), transparent 62%),
+        linear-gradient(180deg, #000, #0a0a0a);
+
+      /* Primary button hover */
+      --btn-primary-hover: #e4e4e7;
+      --btn-primary-text: var(--bg-primary);
+
+      /* Scrollbar */
+      --scrollbar-thumb-hover: #52525b;
+
+      /* Selection */
+      --selection-bg: rgba(255,255,255,0.2);
+
+      /* Split button separator */
+      --split-separator: rgba(113,113,122,0.4);
+
+      /* Focus ring */
+      --focus-ring: rgba(255,255,255,0.08);
+
+      /* Kbd */
+      --kbd-bg: rgba(255,255,255,0.05);
+    }
+
+    /* =========================================================
+       Design tokens — LIGHT MODE
+       ========================================================= */
+    [data-theme="light"] {
+      --bg-primary: #ffffff;
+      --bg-secondary: #fafafa;
+      --bg-tertiary: #f4f4f5;
+      --bg-hover: #f0f0f1;
+      --border: #e4e4e7;
+      --border-light: #d4d4d8;
+
+      --text-primary: #18181b;
+      --text-secondary: #52525b;
+      --text-muted: #a1a1aa;
+
+      --accent: #18181b;
+      --accent-dim: rgba(0,0,0,0.04);
+
+      --green: #16a34a;
+      --amber: #d97706;
+      --orange: #ea580c;
+      --red: #dc2626;
+
+      --shadow: 0 25px 50px -12px rgba(0,0,0,0.12);
+
+      /* Surfaces */
+      --surface-shell: rgba(255,255,255,0.92);
+      --surface-card: rgba(255,255,255,0.6);
+      --surface-card-head: rgba(250,250,250,0.6);
+      --surface-preview: rgba(244,244,245,0.5);
+      --surface-code: rgba(244,244,245,0.7);
+      --surface-input: rgba(255,255,255,0.9);
+      --surface-btn: rgba(255,255,255,0.8);
+      --surface-dropdown: rgba(255,255,255,0.98);
+      --surface-overlay-bg: rgba(255,255,255,0.75);
+      --surface-overlay: rgba(255,255,255,0.98);
+      --surface-status-bar: rgba(250,250,250,0.8);
+      --surface-nav: rgba(250,250,250,0.5);
+
+      /* Scanline effect */
+      --scanline-color: rgba(0,0,0,0.008);
+      --scanline-blend: multiply;
+      --scanline-opacity: 0.12;
+
+      /* Body gradient */
+      --body-gradient:
+        radial-gradient(1100px 700px at 70% 20%, rgba(0,0,0,0.015), transparent 60%),
+        radial-gradient(900px 650px at 15% 75%, rgba(22,163,74,0.04), transparent 62%),
+        linear-gradient(180deg, #fafafa, #ffffff);
+
+      /* Primary button hover */
+      --btn-primary-hover: #27272a;
+      --btn-primary-text: #ffffff;
+
+      /* Scrollbar */
+      --scrollbar-thumb-hover: #a1a1aa;
+
+      /* Selection */
+      --selection-bg: rgba(0,0,0,0.12);
+
+      /* Split button separator */
+      --split-separator: rgba(255,255,255,0.25);
+
+      /* Focus ring */
+      --focus-ring: rgba(0,0,0,0.04);
+
+      /* Kbd */
+      --kbd-bg: rgba(0,0,0,0.04);
+    }
+
+    /* =========================================================
+       Shared tokens (both modes)
+       ========================================================= */
+    :root {
+      --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --radius: 10px;
+    }
+
+    /* =========================================================
+       Global styles
+       ========================================================= */
+    html, body { height: 100%; }
+    body {
+      background: var(--body-gradient);
+      color: var(--text-primary);
+      font-family: var(--sans);
+      padding: 22px;
+      overflow-x: hidden;
+      transition: background 0.3s ease, color 0.2s ease;
+    }
+
+    /* Scanlines / grain overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        var(--scanline-color),
+        var(--scanline-color) 1px,
+        transparent 3px,
+        transparent 6px
+      );
+      mix-blend-mode: var(--scanline-blend);
+      opacity: var(--scanline-opacity);
+      z-index: 9999;
+    }
+
+    ::selection { background: var(--selection-bg); }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 4px; transition: background 0.2s; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+
+    /* =========================================================
+       Style guide layout
+       ========================================================= */
+    .sg-shell {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      background: var(--surface-shell);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+      transition: background 0.3s ease, border-color 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    .status-bar {
+      height: 44px;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-status-bar);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.3s ease, border-color 0.2s ease;
+    }
+    .traffic-lights { display: flex; gap: 8px; }
+    .traffic-light {
+      width: 12px; height: 12px; border-radius: 50%;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .traffic-light.red { background: #ff5f57; }
+    .traffic-light.yellow { background: #febc2e; }
+    .traffic-light.green { background: #28c840; }
+    .status-title {
+      flex: 1;
+      text-align: center;
+      font-size: 13px;
+      font-family: var(--mono);
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+      transition: color 0.2s ease;
+    }
+
+    /* Theme toggle button */
+    .theme-toggle {
+      width: 52px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .theme-toggle-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface-btn);
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .theme-toggle-btn:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-light);
+      color: var(--text-primary);
+    }
+    .theme-toggle-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+    /* Show/hide icons based on theme */
+    [data-theme="dark"] .icon-sun { display: block; }
+    [data-theme="dark"] .icon-moon { display: none; }
+    [data-theme="light"] .icon-sun { display: none; }
+    [data-theme="light"] .icon-moon { display: block; }
+
+    .sg-main {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 680px;
+    }
+
+    .sg-nav {
+      border-right: 1px solid var(--border);
+      background: var(--surface-nav);
+      padding: 14px 12px;
+      overflow: auto;
+      transition: background 0.3s ease, border-color 0.2s ease;
+    }
+    .sg-nav h3 {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      transition: color 0.2s ease;
+    }
+    .sg-nav a {
+      display: block;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 8px 10px;
+      border-radius: 8px;
+      transition: background 0.15s, color 0.2s ease;
+    }
+    .sg-nav a:hover { background: var(--accent-dim); }
+
+    .sg-content {
+      padding: 18px 18px 24px;
+      overflow: auto;
+    }
+
+    .sg-hero {
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+      transition: border-color 0.2s ease;
+    }
+    .sg-hero h1 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .sg-hero p {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: var(--mono);
+      line-height: 1.6;
+      transition: color 0.2s ease;
+    }
+
+    .sg-section {
+      padding: 14px 0 18px;
+      border-bottom: 1px solid var(--border);
+      transition: border-color 0.2s ease;
+    }
+    .sg-section:last-child { border-bottom: none; }
+    .sg-section h2 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+      transition: color 0.2s ease;
+    }
+    .sg-section .sg-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 12px;
+      font-family: var(--mono);
+      transition: color 0.2s ease;
+    }
+
+    .sg-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .sg-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: background 0.3s ease, border-color 0.2s ease;
+    }
+    .sg-card-head {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--surface-card-head);
+      transition: background 0.3s ease, border-color 0.2s ease;
+    }
+    .sg-card-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      transition: color 0.2s ease;
+    }
+    .sg-card-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--mono);
+      transition: color 0.2s ease;
+    }
+    .sg-card-body { padding: 12px; }
+
+    .sg-row {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 12px;
+    }
+    @media (max-width: 980px) {
+      .sg-main { grid-template-columns: 1fr; }
+      .sg-nav { border-right: none; border-bottom: 1px solid var(--border); }
+      .sg-row { grid-template-columns: 1fr; }
+    }
+
+    .sg-preview {
+      background: var(--surface-preview);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      min-height: 52px;
+      transition: background 0.3s ease, border-color 0.2s ease;
+    }
+
+    pre {
+      margin: 0;
+      padding: 12px;
+      background: var(--surface-code);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: auto;
+      color: var(--text-secondary);
+      font-family: var(--mono);
+      font-size: 11px;
+      line-height: 1.55;
+      white-space: pre;
+      transition: background 0.3s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+    code { font-family: var(--mono); }
+
+    /* =========================================================
+       Components
+       ========================================================= */
+
+    /* Buttons */
+    .btn {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--surface-btn);
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+    }
+    .btn:hover { background: var(--bg-hover); border-color: var(--border-light); }
+    .btn:active { transform: translateY(1px); }
+    .btn:disabled, .btn[aria-disabled="true"] {
+      opacity: 0.45; cursor: not-allowed; pointer-events: none;
+    }
+    .btn-primary {
+      background: var(--text-primary);
+      color: var(--btn-primary-text);
+      border-color: transparent;
+    }
+    .btn-primary:hover { background: var(--btn-primary-hover); }
+    .btn-ghost {
+      background: transparent;
+      border-color: transparent;
+    }
+    .btn-ghost:hover {
+      background: var(--accent-dim);
+      border-color: var(--border);
+    }
+    .btn .icon { width: 14px; height: 14px; opacity: 0.7; }
+    .btn .chevron { width: 12px; height: 12px; opacity: 0.5; margin-left: auto; }
+
+    /* Split button */
+    .split-btn-container { display: inline-flex; position: relative; vertical-align: middle; }
+    .split-btn-container .btn { margin: 0; }
+    .split-btn-container:hover .btn {
+      background: var(--btn-primary-hover) !important;
+      border-color: var(--border-light) !important;
+      color: var(--btn-primary-text);
+    }
+    .split-btn-container:active .btn { transform: translateY(1px) !important; }
+
+    .btn-split-left {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right: none;
+      padding-right: 12px;
+      position: relative;
+    }
+    .btn-split-left::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 20%;
+      height: 60%;
+      width: 1px;
+      background: var(--split-separator);
+      z-index: 1;
+    }
+    .btn-split-right {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-left: none;
+      padding-left: 8px;
+      padding-right: 8px;
+      width: 36px;
+      justify-content: center;
+    }
+    .btn-split-right svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Form controls */
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      transition: color 0.2s ease;
+    }
+    .form-input {
+      width: 100%;
+      background: var(--surface-input);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--text-primary);
+      transition: border-color 0.2s, background 0.3s ease, color 0.2s ease;
+    }
+    .form-input:focus { outline: none; border-color: var(--border-light); box-shadow: 0 0 0 3px var(--focus-ring); }
+    .form-input::placeholder { color: var(--text-muted); }
+    textarea.form-input {
+      min-height: 110px;
+      resize: vertical;
+      font-family: var(--mono);
+      line-height: 1.6;
+    }
+
+    /* Checkbox (filled style) */
+    .checkbox {
+      width: 16px;
+      height: 16px;
+      appearance: none;
+      -webkit-appearance: none;
+      border: 1.5px solid var(--border-light);
+      border-radius: 4px;
+      background: var(--bg-primary);
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+    .checkbox:hover {
+      border-color: var(--text-muted);
+    }
+    .checkbox:checked {
+      background: var(--text-primary);
+      border-color: var(--text-primary);
+    }
+    .checkbox:checked::after {
+      content: "✓";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--bg-primary);
+      font-size: 10px;
+      font-weight: bold;
+    }
+    .checkbox:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--focus-ring);
+    }
+
+    /* Checkbox subtle variant (stroke-only) */
+    .checkbox-subtle {
+      width: 16px;
+      height: 16px;
+      appearance: none;
+      -webkit-appearance: none;
+      border: 1px solid var(--border-light);  /* thinner: 1px instead of 1.5px */
+      border-radius: 4px;
+      background: transparent;
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+    .checkbox-subtle:hover {
+      border-color: var(--text-secondary);  /* brighter hover */
+    }
+    .checkbox-subtle:checked {
+      border-color: var(--text-primary);  /* full brightness */
+      background: transparent;
+    }
+    .checkbox-subtle:checked::after {
+      content: "✓";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-primary);  /* full brightness checkmark */
+      font-size: 10px;
+      font-weight: bold;
+    }
+    .checkbox-subtle:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--focus-ring);
+    }
+
+    /* Reviewer row (checkbox + label pattern) */
+    .reviewer-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+    .reviewer-row:hover {
+      background: var(--accent-dim);
+    }
+    .reviewer-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .reviewer-info .name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    .reviewer-info .handle {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--mono);
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      background: var(--surface-card);
+      font-family: var(--mono);
+      transition: background 0.3s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    /* Kbd - using system fonts for better symbol support */
+    .kbd {
+      padding: 2px 6px;
+      background: var(--kbd-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 10px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "JetBrains Mono", monospace;
+      color: var(--text-secondary);
+      display: inline-block;
+      vertical-align: baseline;
+      transition: background 0.3s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    /* Keyboard shortcuts bar (bottom bar style) */
+    .shortcuts-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .shortcuts-bar .shortcut {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .shortcuts-bar .shortcut .kbd {
+      margin-right: 2px;
+    }
+
+    /* Menu shortcuts (popover menu style) */
+    .menu-shortcut {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--mono);
+      margin-left: 12px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      align-self: flex-start;
+      margin-top: 2px;
+    }
+    .menu-shortcut .kbd {
+      margin-right: 3px;
+    }
+    .menu-shortcut .kbd:last-child {
+      margin-right: 0;
+    }
+
+    /* List items */
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-secondary);
+      transition: background 0.15s, color 0.2s ease;
+      cursor: pointer;
+    }
+    .list-item:hover { background: var(--accent-dim); }
+    .list-item.active { background: var(--accent-dim); }
+
+    .status-pill {
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .status-pill.ok { color: var(--green); }
+    .status-pill.warn { color: var(--amber); }
+    .status-pill.bad { color: var(--red); }
+
+    /* File item (sidebar style) */
+    .file-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-secondary);
+      transition: background 0.15s;
+      cursor: pointer;
+    }
+    .file-item:hover { background: var(--bg-hover); }
+    .file-item.active { background: var(--accent-dim); }
+
+    /* File status blocks */
+    .file-status {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: var(--mono);
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    [data-theme="dark"] .file-status.M { background: rgba(245,158,11,0.18); color: var(--amber); }
+    [data-theme="dark"] .file-status.A { background: rgba(34,197,94,0.18); color: var(--green); }
+    [data-theme="dark"] .file-status.R { background: rgba(239,68,68,0.18); color: var(--red); }
+    [data-theme="light"] .file-status.M { background: rgba(217,119,6,0.12); color: var(--amber); }
+    [data-theme="light"] .file-status.A { background: rgba(22,163,74,0.12); color: var(--green); }
+    [data-theme="light"] .file-status.R { background: rgba(220,38,38,0.12); color: var(--red); }
+
+    /* File path & changes */
+    .file-path {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .file-changes {
+      font-size: 10px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .file-changes .add { color: var(--green); }
+    .file-changes .rem { color: var(--red); }
+
+    /* Detail files (commit detail drawer) */
+    .detail-files {
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+    }
+    .detail-files-header {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .detail-files-stats {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      opacity: 0.7;
+      text-transform: none;
+      letter-spacing: normal;
+      display: flex;
+      gap: 12px;
+    }
+    .detail-files-stats span {
+      font-family: var(--mono);
+    }
+    .detail-files-stats .add { color: var(--green); }
+    .detail-files-stats .rem { color: var(--red); }
+
+    .detail-files-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .detail-files-grid .file-item {
+      flex: 0 0 auto;
+      min-width: 0;
+      background: var(--bg-tertiary);
+      text-transform: none;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      opacity: 0.8;
+    }
+
+    /* Dropdown */
+    .dropdown-container { position: relative; display: inline-block; }
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      min-width: 280px;
+      background: var(--surface-dropdown);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      z-index: 100;
+      overflow: hidden;
+      transition: background 0.3s ease, border-color 0.2s ease, box-shadow 0.3s ease;
+    }
+    .dropdown.show { display: block; }
+    .dropdown-header {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: var(--surface-card-head);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      transition: background 0.3s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+    .dropdown-search {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      transition: border-color 0.2s ease;
+    }
+    .dropdown-search input {
+      width: 100%;
+      background: var(--surface-input);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: var(--text-primary);
+      font-family: var(--sans);
+      transition: background 0.3s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+    .dropdown-search input:focus { outline: none; border-color: var(--border-light); }
+    .dropdown-list {
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 6px;
+    }
+    .dropdown-item {
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.12s;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .dropdown-item:hover { background: var(--accent-dim); color: var(--text-primary); }
+
+    /* Menu-style popover */
+    .popover-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      width: 380px;
+      display: none;
+      z-index: 1000;
+      overflow: hidden;
+      flex-direction: column;
+      transition: background 0.3s ease, border-color 0.2s ease, box-shadow 0.3s ease;
+    }
+    .popover-menu.show { display: flex; }
+    .menu-item {
+      padding: 12px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      color: var(--text-primary);
+      transition: background 0.2s, color 0.2s ease;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .menu-item:hover { background: var(--bg-hover); }
+    .menu-item span.desc {
+      display: block;
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      white-space: normal;
+      line-height: 1.4;
+      transition: color 0.2s ease;
+    }
+
+    /* Overlay + progress steps */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--surface-overlay-bg);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 18px;
+      transition: background 0.3s ease;
+    }
+    .overlay.show { display: flex; }
+    .overlay-content {
+      background: var(--surface-overlay);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      width: min(520px, calc(100vw - 36px));
+      overflow: hidden;
+      animation: fadeIn 0.22s ease;
+      transition: background 0.3s ease, border-color 0.2s ease, box-shadow 0.3s ease;
+    }
+    .overlay-header {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-card-head);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      transition: background 0.3s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+    .overlay-body { padding: 12px 16px; }
+
+    .progress-steps { display: flex; flex-direction: column; gap: 4px; }
+    .step {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 0;
+      border-radius: 12px;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      color: var(--text-primary);
+      transition: all 0.2s;
+      background: transparent;
+      border: none;
+    }
+    .step-left { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+    .step-indicator {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      flex-shrink: 0;
+      position: relative;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-weight: 400;
+      transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+    .step-status {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      min-width: 160px;
+      text-align: right;
+      transition: color 0.2s ease;
+    }
+    .step.active .step-status { color: var(--orange); }
+    .step.active .step-indicator { border-color: rgba(251,146,60,0.3); }
+    [data-theme="light"] .step.active .step-indicator { border-color: rgba(234,88,12,0.3); }
+    .step.done .step-indicator {
+      border-color: var(--green);
+      background: rgba(34,197,94,0.15);
+      color: var(--green);
+    }
+    [data-theme="light"] .step.done .step-indicator {
+      background: rgba(22,163,74,0.1);
+    }
+    .step-spinner {
+      position: absolute;
+      inset: -2px;
+      border-radius: 50%;
+      border: 2px solid rgba(251,146,60,0.25);
+      border-top-color: rgba(251,146,60,0.9);
+      animation: spin 0.8s linear infinite;
+    }
+    [data-theme="light"] .step-spinner {
+      border-color: rgba(234,88,12,0.2);
+      border-top-color: rgba(234,88,12,0.85);
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.96);} to { opacity: 1; transform: scale(1);} }
+
+    /* Context menu */
+    .context-menu {
+      position: fixed;
+      background: var(--surface-dropdown);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      min-width: 180px;
+      z-index: 1000;
+      display: none;
+      overflow: hidden;
+      transition: background 0.3s ease, border-color 0.2s ease, box-shadow 0.3s ease;
+    }
+    .context-menu.show { display: block; }
+    .context-menu-item {
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--text-primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.15s, color 0.2s ease;
+    }
+    .context-menu-item:hover { background: var(--bg-hover); }
+    .context-menu-item svg { width: 14px; height: 14px; opacity: 0.7; }
+    .context-menu-separator { height: 1px; background: var(--border); margin: 4px 0; transition: background 0.2s ease; }
+
+    /* Token blocks */
+    .token-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    @media (max-width: 980px) { .token-grid { grid-template-columns: 1fr; } }
+
+    .token {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.3s ease, border-color 0.2s ease;
+    }
+    .swatch {
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--swatch, #000);
+      box-shadow: inset 0 0 0 1px rgba(128,128,128,0.1);
+      flex-shrink: 0;
+      transition: border-color 0.2s ease;
+    }
+    .token .name { font-size: 12px; font-weight: 600; color: var(--text-secondary); transition: color 0.2s ease; }
+    .token .value { font-size: 11px; color: var(--text-muted); font-family: var(--mono); margin-top: 2px; transition: color 0.2s ease; }
+
+    .type-sample h1, .type-sample h2, .type-sample h3 {
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    .type-sample h1 { font-size: 18px; font-weight: 600; }
+    .type-sample h2 { font-size: 15px; font-weight: 600; }
+    .type-sample h3 { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+    .type-sample p { font-size: 13px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 10px; transition: color 0.2s ease; }
+    .type-sample .mono { font-family: var(--mono); font-size: 12px; color: var(--text-muted); transition: color 0.2s ease; }
+
+  </style>
+</head>
+
+<body>
+  <div class="sg-shell">
+    <div class="status-bar">
+      <div class="traffic-lights" aria-hidden="true">
+        <div class="traffic-light red"></div>
+        <div class="traffic-light yellow"></div>
+        <div class="traffic-light green"></div>
+      </div>
+      <div class="status-title">Omni · Style Guide</div>
+      <div class="theme-toggle">
+        <button class="theme-toggle-btn" id="themeToggle" type="button" aria-label="Toggle theme">
+          <!-- Sun icon (shown in dark mode) -->
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <!-- Moon icon (shown in light mode) -->
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="sg-main">
+      <nav class="sg-nav">
+        <h3>Sections</h3>
+        <a href="#tokens">Design tokens</a>
+        <a href="#typography">Typography</a>
+        <a href="#buttons">Buttons</a>
+        <a href="#forms">Forms</a>
+        <a href="#checkboxes">Checkboxes</a>
+        <a href="#shortcuts">Keyboard shortcuts</a>
+        <a href="#overlays">Overlays & menus</a>
+        <a href="#lists">List items</a>
+        <a href="#file-drawer">File drawer</a>
+      </nav>
+
+      <main class="sg-content">
+        <div class="sg-hero">
+          <h1>Omni UI System</h1>
+          <p>
+            Human-readable reference of tokens and components. Use the class names shown in each card as the canonical API. Toggle theme with the button in the title bar.
+          </p>
+        </div>
+
+        <!-- ===================================================== -->
+        <section class="sg-section" id="tokens">
+          <h2>Design tokens</h2>
+          <div class="sg-note">
+            Canonical tokens live in <code>:root</code> / <code>[data-theme]</code>. Prefer variables over hard-coded hex values.
+          </div>
+
+          <div class="sg-grid">
+            <div class="sg-card">
+              <div class="sg-card-head">
+                <div class="sg-card-title">Colors</div>
+                <div class="sg-card-meta">CSS variables</div>
+              </div>
+              <div class="sg-card-body">
+                <div class="token-grid">
+                  <div class="token"><div class="swatch" style="--swatch: var(--bg-primary)"></div><div><div class="name">--bg-primary</div><div class="value" data-token="--bg-primary"></div></div></div>
+                  <div class="token"><div class="swatch" style="--swatch: var(--bg-secondary)"></div><div><div class="name">--bg-secondary</div><div class="value" data-token="--bg-secondary"></div></div></div>
+                  <div class="token"><div class="swatch" style="--swatch: var(--bg-tertiary)"></div><div><div class="name">--bg-tertiary</div><div class="value" data-token="--bg-tertiary"></div></div></div>
+
+                  <div class="token"><div class="swatch" style="--swatch: var(--border)"></div><div><div class="name">--border</div><div class="value" data-token="--border"></div></div></div>
+                  <div class="token"><div class="swatch" style="--swatch: var(--border-light)"></div><div><div class="name">--border-light</div><div class="value" data-token="--border-light"></div></div></div>
+                  <div class="token"><div class="swatch" style="--swatch: var(--accent-dim)"></div><div><div class="name">--accent-dim</div><div class="value" data-token="--accent-dim"></div></div></div>
+
+                  <div class="token"><div class="swatch" style="--swatch: var(--text-primary)"></div><div><div class="name">--text-primary</div><div class="value" data-token="--text-primary"></div></div></div>
+                  <div class="token"><div class="swatch" style="--swatch: var(--text-secondary)"></div><div><div class="name">--text-secondary</div><div class="value" data-token="--text-secondary"></div></div></div>
+                  <div class="token"><div class="swatch" style="--swatch: var(--text-muted)"></div><div><div class="name">--text-muted</div><div class="value" data-token="--text-muted"></div></div></div>
+
+                  <div class="token"><div class="swatch" style="--swatch: var(--green)"></div><div><div class="name">--green</div><div class="value" data-token="--green"></div></div></div>
+                  <div class="token"><div class="swatch" style="--swatch: var(--amber)"></div><div><div class="name">--amber</div><div class="value" data-token="--amber"></div></div></div>
+                  <div class="token"><div class="swatch" style="--swatch: var(--orange)"></div><div><div class="name">--orange</div><div class="value" data-token="--orange"></div></div></div>
+
+                  <div class="token"><div class="swatch" style="--swatch: var(--red)"></div><div><div class="name">--red</div><div class="value" data-token="--red"></div></div></div>
+                  <div class="token"><div class="swatch" style="--swatch: var(--bg-hover)"></div><div><div class="name">--bg-hover</div><div class="value" data-token="--bg-hover"></div></div></div>
+                  <div class="token"><div class="swatch" style="--swatch: var(--accent)"></div><div><div class="name">--accent</div><div class="value" data-token="--accent"></div></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="sg-card">
+              <div class="sg-card-head">
+                <div class="sg-card-title">Radius & shadow</div>
+                <div class="sg-card-meta">Layout tokens</div>
+              </div>
+              <div class="sg-card-body">
+                <div class="sg-preview" style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+                  <div>
+                    <div class="badge">--radius <span data-token="--radius"></span></div>
+                    <div style="height:8px"></div>
+                    <div class="badge">--shadow</div>
+                  </div>
+                  <div style="width: 220px; height: 72px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface-card); box-shadow: var(--shadow);"></div>
+                </div>
+                <div style="height:10px"></div>
+                <pre><code>:root {
+  --radius: 10px;
+  --shadow: 0 25px 50px -12px rgba(0,0,0,0.65); /* dark */
+  --shadow: 0 25px 50px -12px rgba(0,0,0,0.12); /* light */
+}</code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================== -->
+        <section class="sg-section" id="typography">
+          <h2>Typography</h2>
+          <div class="sg-note">Primary font is Inter; monospace is JetBrains Mono.</div>
+
+          <div class="sg-card">
+            <div class="sg-card-head">
+              <div class="sg-card-title">Type scale</div>
+              <div class="sg-card-meta">Examples</div>
+            </div>
+            <div class="sg-card-body">
+              <div class="sg-row">
+                <div class="sg-preview type-sample">
+                  <h1>Heading (600)</h1>
+                  <h2>Section heading (600)</h2>
+                  <h3>Micro heading / label (600)</h3>
+                  <p>
+                    Body text uses the secondary color for long-form UI copy and maintains strong contrast on both light and dark surfaces.
+                  </p>
+                  <div class="mono">Mono sample: branch: develop · sha: abc123f · 2024-01-05 12:30</div>
+                </div>
+                <pre><code>font-family: var(--sans); /* Inter */
+font-family: var(--mono); /* JetBrains Mono */</code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================== -->
+        <section class="sg-section" id="buttons">
+          <h2>Buttons</h2>
+          <div class="sg-note">Use <code>.btn</code> as the base; add variants like <code>.btn-primary</code> or <code>.btn-ghost</code>.</div>
+
+          <div class="sg-grid">
+            <div class="sg-card">
+              <div class="sg-card-head">
+                <div class="sg-card-title">Button variants</div>
+                <div class="sg-card-meta">.btn / .btn-primary / .btn-ghost</div>
+              </div>
+              <div class="sg-card-body">
+                <div class="sg-row">
+                  <div class="sg-preview" style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+                    <button class="btn" type="button">Default</button>
+                    <button class="btn btn-primary" type="button">Primary</button>
+                    <button class="btn btn-ghost" type="button">Ghost</button>
+                    <button class="btn" type="button" disabled>Disabled</button>
+                    <span class="badge">Spacing: 8px 14px</span>
+                  </div>
+                  <pre><code>&lt;button class="btn"&gt;Default&lt;/button&gt;
+&lt;button class="btn btn-primary"&gt;Primary&lt;/button&gt;
+&lt;button class="btn btn-ghost"&gt;Ghost&lt;/button&gt;
+&lt;button class="btn" disabled&gt;Disabled&lt;/button&gt;</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="sg-card">
+              <div class="sg-card-head">
+                <div class="sg-card-title">Button with chevron</div>
+                <div class="sg-card-meta">.btn + .chevron SVG</div>
+              </div>
+              <div class="sg-card-body">
+                <div class="sg-row">
+                  <div class="sg-preview" style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+                    <button class="btn" type="button" id="demoChevronBtn">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="6" y1="3" x2="6" y2="15"></line>
+                        <circle cx="18" cy="6" r="3"></circle>
+                        <circle cx="6" cy="18" r="3"></circle>
+                        <path d="M18 9a9 9 0 0 1-9 9"></path>
+                      </svg>
+                      <span>Source: develop</span>
+                      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </button>
+                    <button class="btn" type="button">
+                      <span>Pick reviewers</span>
+                      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </button>
+                  </div>
+                  <pre><code>&lt;button class="btn"&gt;
+  &lt;svg class="icon"&gt;...&lt;/svg&gt;
+  &lt;span&gt;Source: develop&lt;/span&gt;
+  &lt;svg class="chevron" viewBox="0 0 24 24"&gt;
+    &lt;polyline points="6 9 12 15 18 9"&gt;&lt;/polyline&gt;
+  &lt;/svg&gt;
+&lt;/button&gt;</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="sg-card">
+              <div class="sg-card-head">
+                <div class="sg-card-title">Split button</div>
+                <div class="sg-card-meta">.split-btn-container</div>
+              </div>
+              <div class="sg-card-body">
+                <div class="sg-row">
+                  <div class="sg-preview" style="display:flex; align-items:center; gap:10px; justify-content:space-between;">
+                    <div class="split-btn-container" id="demoSplit">
+                      <button class="btn btn-primary btn-split-left" type="button" id="demoSplitMain">Create</button>
+                      <button class="btn btn-primary btn-split-right" type="button" id="demoSplitToggle" aria-label="More options">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                      </button>
+                      <div class="popover-menu" id="demoSplitMenu">
+                        <div class="menu-item">
+                          <div>
+                            Create pull request
+                            <span class="desc">Create the PR and leave it open.</span>
+                          </div>
+                          <span class="menu-shortcut"><span class="kbd">⏎</span></span>
+                        </div>
+                        <div class="menu-item">
+                          <div>
+                            Create and merge
+                            <span class="desc">Create and immediately merge.</span>
+                          </div>
+                          <span class="menu-shortcut"><span class="kbd">⇧</span><span class="kbd">⏎</span></span>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="badge">Hover applies to whole container</span>
+                  </div>
+                  <pre><code>&lt;div class="split-btn-container"&gt;
+  &lt;button class="btn btn-primary btn-split-left"&gt;
+    Create
+  &lt;/button&gt;
+  &lt;button class="btn btn-primary btn-split-right"&gt;
+    &lt;svg viewBox="0 0 24 24"&gt;
+      &lt;polyline points="6 9 12 15 18 9"&gt;
+      &lt;/polyline&gt;
+    &lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;div class="popover-menu"&gt;...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================== -->
+        <section class="sg-section" id="forms">
+          <h2>Forms</h2>
+          <div class="sg-note">Inputs use translucent surfaces with a border-color change on focus.</div>
+
+          <div class="sg-grid">
+            <div class="sg-card">
+              <div class="sg-card-head">
+                <div class="sg-card-title">Text input</div>
+                <div class="sg-card-meta">.form-label + .form-input</div>
+              </div>
+              <div class="sg-card-body">
+                <div class="sg-row">
+                  <div class="sg-preview">
+                    <label class="form-label" for="sgTitle">Title</label>
+                    <input id="sgTitle" class="form-input" type="text" placeholder="e.g., Improve PR creation UX" />
+                    <div style="height:10px"></div>
+                    <label class="form-label" for="sgDesc">Description</label>
+                    <textarea id="sgDesc" class="form-input" placeholder="Summary, testing notes, screenshots..."></textarea>
+                  </div>
+                  <pre><code>&lt;label class="form-label"&gt;Title&lt;/label&gt;
+&lt;input class="form-input" /&gt;
+
+&lt;label class="form-label"&gt;Description&lt;/label&gt;
+&lt;textarea class="form-input"&gt;&lt;/textarea&gt;</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="sg-card">
+              <div class="sg-card-head">
+                <div class="sg-card-title">Dropdown</div>
+                <div class="sg-card-meta">.dropdown-container + .dropdown</div>
+              </div>
+              <div class="sg-card-body">
+                <div class="sg-row">
+                  <div class="sg-preview" style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-start;">
+                    <div class="dropdown-container">
+                      <button class="btn" type="button" id="demoDropdownBtn">
+                        <span>Select branch</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                      </button>
+                      <div class="dropdown" id="demoDropdown">
+                        <div class="dropdown-header">
+                          <span>Select branch</span>
+                          <span class="badge">7</span>
+                        </div>
+                        <div class="dropdown-search">
+                          <input type="text" id="demoFilter" placeholder="Filter branches..." />
+                        </div>
+                        <div class="dropdown-list" id="demoList"></div>
+                      </div>
+                    </div>
+                    <span class="badge">Tip: keep labels mono</span>
+                  </div>
+                  <pre><code>&lt;div class="dropdown-container"&gt;
+  &lt;button class="btn"&gt;
+    &lt;span&gt;Select branch&lt;/span&gt;
+    &lt;svg class="chevron"&gt;
+      &lt;polyline points="6 9 12 15 18 9"&gt;
+      &lt;/polyline&gt;
+    &lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;div class="dropdown"&gt;...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================== -->
+        <section class="sg-section" id="checkboxes">
+          <h2>Checkboxes</h2>
+          <div class="sg-note">Two variants: <code>.checkbox</code> (filled) for prominent selections, <code>.checkbox-subtle</code> (stroke-only) for less prominent UI.</div>
+
+          <div class="sg-grid">
+            <div class="sg-card">
+              <div class="sg-card-head">
+                <div class="sg-card-title">Checkbox filled (default)</div>
+                <div class="sg-card-meta">.checkbox</div>
+              </div>
+              <div class="sg-card-body">
+                <div class="sg-row">
+                  <div class="sg-preview" style="display:flex; flex-wrap:wrap; gap:16px; align-items:center;">
+                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                      <input type="checkbox" class="checkbox" />
+                      <span style="font-size:13px;">Unchecked</span>
+                    </label>
+                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                      <input type="checkbox" class="checkbox" checked />
+                      <span style="font-size:13px;">Checked</span>
+                    </label>
+                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer; opacity:0.5;">
+                      <input type="checkbox" class="checkbox" disabled />
+                      <span style="font-size:13px;">Disabled</span>
+                    </label>
+                  </div>
+                  <pre><code>&lt;input type="checkbox" class="checkbox" /&gt;
+&lt;input type="checkbox" class="checkbox" checked /&gt;
+&lt;input type="checkbox" class="checkbox" disabled /&gt;</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="sg-card">
+              <div class="sg-card-head">
+                <div class="sg-card-title">Checkbox subtle (stroke-only)</div>
+                <div class="sg-card-meta">.checkbox-subtle</div>
+              </div>
+              <div class="sg-card-body">
+                <div class="sg-row">
+                  <div class="sg-preview" style="display:flex; flex-wrap:wrap; gap:16px; align-items:center;">
+                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                      <input type="checkbox" class="checkbox-subtle" />
+                      <span style="font-size:13px;">Unchecked</span>
+                    </label>
+                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                      <input type="checkbox" class="checkbox-subtle" checked />
+                      <span style="font-size:13px;">Checked</span>
+                    </label>
+                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer; opacity:0.5;">
+                      <input type="checkbox" class="checkbox-subtle" disabled />
+                      <span style="font-size:13px;">Disabled</span>
+                    </label>
+                  </div>
+                  <pre><code>&lt;input type="checkbox" class="checkbox-subtle" /&gt;
+&lt;input type="checkbox" class="checkbox-subtle" checked /&gt;
+&lt;input type="checkbox" class="checkbox-subtle" disabled /&gt;</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="sg-card">
+              <div class="sg-card-head">
+                <div class="sg-card-title">Reviewer row pattern</div>
+                <div class="sg-card-meta">.reviewer-row + .checkbox</div>
+              </div>
+              <div class="sg-card-body">
+                <div class="sg-row">
+                  <div class="sg-preview" style="display:grid; gap:4px;">
+                    <label class="reviewer-row">
+                      <input type="checkbox" class="checkbox" checked />
+                      <div class="reviewer-info">
+                        <div class="name">Sarah Chen</div>
+                        <div class="handle">@sara99</div>
+                      </div>
+                    </label>
+                    <label class="reviewer-row">
+                      <input type="checkbox" class="checkbox" />
+                      <div class="reviewer-info">
+                        <div class="name">Noah Eriksen</div>
+                        <div class="handle">@noahe</div>
+                      </div>
+                    </label>
+                    <label class="reviewer-row">
+                      <input type="checkbox" class="checkbox-subtle" checked />
+                      <div class="reviewer-info">
+                        <div class="name">Mia Solheim</div>
+                        <div class="handle">@miaS · subtle variant</div>
+                      </div>
+                    </label>
+                  </div>
+                  <pre><code>&lt;label class="reviewer-row"&gt;
+  &lt;input type="checkbox" class="checkbox" /&gt;
+  &lt;div class="reviewer-info"&gt;
+    &lt;div class="name"&gt;Sarah Chen&lt;/div&gt;
+    &lt;div class="handle"&gt;@sara99&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/label&gt;</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================== -->
+        <section class="sg-section" id="shortcuts">
+          <h2>Keyboard shortcuts</h2>
+          <div class="sg-note">Keyboard hints using <code>.kbd</code> elements. Uses system fonts for better symbol rendering (⇧, ⌘, ⏎).</div>
+
+          <div class="sg-grid">
+            <div class="sg-card">
+              <div class="sg-card-head">
+                <div class="sg-card-title">Kbd element</div>
+                <div class="sg-card-meta">.kbd</div>
+              </div>
+              <div class="sg-card-body">
+                <div class="sg-row">
+                  <div class="sg-preview" style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+                    <span class="kbd">␛</span>
+                    <span class="kbd">⏎</span>
+                    <span class="kbd">⇧</span>
+                    <span class="kbd">⌘</span>
+                    <span class="kbd">G</span>
+                    <span class="kbd">Ctrl</span>
+                    <span class="kbd">Enter</span>
+                  </div>
+                  <pre><code>&lt;span class="kbd"&gt;␛&lt;/span&gt;
+&lt;span class="kbd"&gt;⏎&lt;/span&gt;
+&lt;span class="kbd"&gt;⇧&lt;/span&gt;
+&lt;span class="kbd"&gt;⌘&lt;/span&gt;
+&lt;span class="kbd"&gt;G&lt;/span&gt;</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="sg-card">
+              <div class="sg-card-head">
+                <div class="sg-card-title">Bottom bar shortcuts</div>
+                <div class="sg-card-meta">.shortcuts-bar</div>
+              </div>
+              <div class="sg-card-body">
+                <div class="sg-row">
+                  <div class="sg-preview">
+                    <div class="shortcuts-bar">
+                      <span style="color: var(--text-muted); margin-right: 8px;">Keyboard</span>
+                      <span class="shortcut"><span class="kbd">␛</span> Cancel</span>
+                      <span class="shortcut"><span class="kbd">⏎</span> Create PR</span>
+                      <span class="shortcut"><span class="kbd">⇧</span> <span class="kbd">⏎</span> Create PR + Merge</span>
+                    </div>
+                  </div>
+                  <pre><code>&lt;div class="shortcuts-bar"&gt;
+  &lt;span&gt;Keyboard&lt;/span&gt;
+  &lt;span class="shortcut"&gt;
+    &lt;span class="kbd"&gt;␛&lt;/span&gt; Cancel
+  &lt;/span&gt;
+  &lt;span class="shortcut"&gt;
+    &lt;span class="kbd"&gt;⏎&lt;/span&gt; Create PR
+  &lt;/span&gt;
+  &lt;span class="shortcut"&gt;
+    &lt;span class="kbd"&gt;⇧&lt;/span&gt;
+    &lt;span class="kbd"&gt;⏎&lt;/span&gt;
+    Create PR + Merge
+  &lt;/span&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="sg-card">
+              <div class="sg-card-head">
+                <div class="sg-card-title">Menu item shortcuts</div>
+                <div class="sg-card-meta">.menu-shortcut</div>
+              </div>
+              <div class="sg-card-body">
+                <div class="sg-row">
+                  <div class="sg-preview" style="background: var(--bg-secondary); border-radius: var(--radius);">
+                    <div class="menu-item" style="border-radius: 6px;">
+                      <div>
+                        Generate pull request
+                        <span class="desc">Generate based on current file changes</span>
+                      </div>
+                      <span class="menu-shortcut"><span class="kbd">⌘</span><span class="kbd">G</span></span>
+                    </div>
+                    <div class="menu-item" style="border-radius: 6px;">
+                      <div>
+                        Generate with options
+                        <span class="desc">Generate with custom prompt</span>
+                      </div>
+                      <span class="menu-shortcut"><span class="kbd">⌘</span><span class="kbd">⇧</span><span class="kbd">G</span></span>
+                    </div>
+                  </div>
+                  <pre><code>&lt;div class="menu-item"&gt;
+  &lt;div&gt;
+    Generate pull request
+    &lt;span class="desc"&gt;...&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;span class="menu-shortcut"&gt;
+    &lt;span class="kbd"&gt;⌘&lt;/span&gt;
+    &lt;span class="kbd"&gt;G&lt;/span&gt;
+  &lt;/span&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================== -->
+        <section class="sg-section" id="overlays">
+          <h2>Overlays & menus</h2>
+          <div class="sg-note">Use overlays for long-running actions and show progress with step rows.</div>
+
+          <div class="sg-card">
+            <div class="sg-card-head">
+              <div class="sg-card-title">Progress overlay</div>
+              <div class="sg-card-meta">.overlay / .overlay-content / .step</div>
+            </div>
+            <div class="sg-card-body">
+              <div class="sg-row">
+                <div class="sg-preview" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+                  <button class="btn btn-primary" type="button" id="btnShowOverlay">Show overlay</button>
+                  <button class="btn" type="button" id="btnShowContextMenu">Show context menu</button>
+                  <span class="badge">Esc closes</span>
+                </div>
+                <pre><code>&lt;div class="overlay show"&gt;
+  &lt;div class="overlay-content"&gt;
+    &lt;div class="overlay-header"&gt;...&lt;/div&gt;
+    &lt;div class="overlay-body"&gt;...&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================== -->
+        <section class="sg-section" id="lists">
+          <h2>List items</h2>
+          <div class="sg-note">Sidebar-style list rows use mono text, subtle hover, and an "active" state.</div>
+
+          <div class="sg-card">
+            <div class="sg-card-head">
+              <div class="sg-card-title">Row patterns</div>
+              <div class="sg-card-meta">.list-item / .file-status / .status-pill</div>
+            </div>
+            <div class="sg-card-body">
+              <div class="sg-row">
+                <div class="sg-preview" style="display:grid; gap:6px;">
+                  <div class="list-item active">
+                    <span>my-project #549</span>
+                    <span class="status-pill ok">Ready to merge</span>
+                  </div>
+
+                  <div class="list-item">
+                    <span style="display:flex; align-items:center; gap:10px;">
+                      <span class="file-status M">M</span>
+                      <span>src/ui/BranchPicker.tsx</span>
+                    </span>
+                    <span class="badge">+50 −10</span>
+                  </div>
+
+                  <div class="list-item">
+                    <span>feat(ui): add branch picker</span>
+                    <span class="badge"><span class="kbd">⋯</span> context</span>
+                  </div>
+                </div>
+                <pre><code>&lt;div class="list-item active"&gt;...&lt;/div&gt;
+
+&lt;span class="file-status M"&gt;M&lt;/span&gt;
+&lt;span class="status-pill ok"&gt;Ready to merge&lt;/span&gt;</code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================== -->
+        <section class="sg-section" id="file-drawer">
+          <h2>File drawer</h2>
+          <div class="sg-note">Commit detail file drawer showing files in a commit with stats header.</div>
+
+          <div class="sg-card">
+            <div class="sg-card-head">
+              <div class="sg-card-title">Commit detail file drawer</div>
+              <div class="sg-card-meta">.detail-files / .detail-files-grid</div>
+            </div>
+            <div class="sg-card-body">
+              <div class="sg-row">
+                <div class="sg-preview">
+                  <div class="detail-files">
+                    <div class="detail-files-header">
+                      <span>Files in commit</span>
+                      <span class="detail-files-stats">
+                        <span>2 files</span>
+                        <span class="add">+121 insertions</span>
+                        <span class="rem">−3 deletions</span>
+                      </span>
+                    </div>
+                    <div class="detail-files-grid">
+                      <div class="file-item">
+                        <span class="file-status A">A</span>
+                        <span class="file-path">src/ui/BranchPicker.tsx</span>
+                        <span class="file-changes"><span class="add">+120</span> <span class="rem">−0</span></span>
+                      </div>
+                      <div class="file-item">
+                        <span class="file-status M">M</span>
+                        <span class="file-path">src/ui/index.ts</span>
+                        <span class="file-changes"><span class="add">+1</span> <span class="rem">−3</span></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <pre><code>&lt;div class="detail-files"&gt;
+  &lt;div class="detail-files-header"&gt;
+    &lt;span&gt;Files in commit&lt;/span&gt;
+    &lt;span class="detail-files-stats"&gt;
+      &lt;span&gt;2 files&lt;/span&gt;
+      &lt;span class="add"&gt;+121&lt;/span&gt;
+      &lt;span class="rem"&gt;−3&lt;/span&gt;
+    &lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="detail-files-grid"&gt;
+    &lt;div class="file-item"&gt;
+      &lt;span class="file-status A"&gt;A&lt;/span&gt;
+      &lt;span class="file-path"&gt;...&lt;/span&gt;
+      &lt;span class="file-changes"&gt;...&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Overlay demo -->
+  <div class="overlay" id="demoOverlay" role="dialog" aria-modal="true" aria-label="Generating pull request">
+    <div class="overlay-content">
+      <div class="overlay-header">
+        <span>Generating Pull Request</span>
+        <span class="badge"><span id="demoCounter">0</span>/4</span>
+      </div>
+      <div class="overlay-body">
+        <div class="progress-steps" id="demoSteps">
+          <div class="step" data-step="0">
+            <div class="step-left">
+              <div class="step-indicator"></div>
+              <span>Analyzing branch diff</span>
+            </div>
+            <span class="step-status">queue</span>
+          </div>
+          <div class="step" data-step="1">
+            <div class="step-left">
+              <div class="step-indicator"></div>
+              <span>Summarizing commits</span>
+            </div>
+            <span class="step-status">queue</span>
+          </div>
+          <div class="step" data-step="2">
+            <div class="step-left">
+              <div class="step-indicator"></div>
+              <span>Generating PR body</span>
+            </div>
+            <span class="step-status">queue</span>
+          </div>
+          <div class="step" data-step="3">
+            <div class="step-left">
+              <div class="step-indicator"></div>
+              <span>Finalizing proposal</span>
+            </div>
+            <span class="step-status">queue</span>
+          </div>
+        </div>
+        <div style="height:12px"></div>
+        <button class="btn btn-ghost" type="button" id="btnCloseOverlay">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Context menu demo -->
+  <div class="context-menu" id="demoContextMenu" role="menu" aria-label="Context menu">
+    <div class="context-menu-item" role="menuitem">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+      </svg>
+      Copy SHA
+    </div>
+    <div class="context-menu-item" role="menuitem">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+        <polyline points="15 3 21 3 21 9"></polyline>
+        <line x1="10" y1="14" x2="21" y2="3"></line>
+      </svg>
+      View on GitHub
+    </div>
+    <div class="context-menu-separator"></div>
+    <div class="context-menu-item" role="menuitem">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+      </svg>
+      Reveal in file-browser
+    </div>
+  </div>
+
+  <script>
+    // =========================================================
+    // Theme toggle with localStorage persistence
+    // =========================================================
+    const html = document.documentElement;
+    const themeToggle = document.getElementById("themeToggle");
+    const STORAGE_KEY = "omni-theme";
+
+    function setTheme(theme) {
+      html.setAttribute("data-theme", theme);
+      localStorage.setItem(STORAGE_KEY, theme);
+      hydrateTokens(); // Update displayed token values
+    }
+
+    function toggleTheme() {
+      const current = html.getAttribute("data-theme") || "dark";
+      setTheme(current === "dark" ? "light" : "dark");
+    }
+
+    // Initialize from localStorage or system preference
+    (function initTheme() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        setTheme(stored);
+      } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+        setTheme("light");
+      }
+    })();
+
+    themeToggle.addEventListener("click", toggleTheme);
+
+    // =========================================================
+    // Fill token values from computed styles
+    // =========================================================
+    function hydrateTokens() {
+      const styles = getComputedStyle(document.documentElement);
+      document.querySelectorAll("[data-token]").forEach(el => {
+        const name = el.getAttribute("data-token");
+        const value = styles.getPropertyValue(name).trim();
+        el.textContent = value ? value : name;
+      });
+    }
+    hydrateTokens();
+
+    // =========================================================
+    // Dropdown demo
+    // =========================================================
+    const branches = ["main","develop","release/1.8.0","feature/pr-window-ui","hotfix/critical-null-check","chore/refactor-api-client","docs/cleanup"];
+    const demoDropdownBtn = document.getElementById("demoDropdownBtn");
+    const demoDropdown = document.getElementById("demoDropdown");
+    const demoFilter = document.getElementById("demoFilter");
+    const demoList = document.getElementById("demoList");
+
+    function renderBranchList() {
+      const q = (demoFilter.value || "").toLowerCase().trim();
+      const filtered = branches.filter(b => b.toLowerCase().includes(q));
+      demoList.innerHTML = filtered.map(b => `
+        <div class="dropdown-item" data-branch="${b}">
+          <span style="font-family: var(--mono);">${b}</span>
+          <span class="badge">branch</span>
+        </div>
+      `).join("");
+      demoList.querySelectorAll(".dropdown-item").forEach(item => {
+        item.addEventListener("click", () => {
+          demoDropdownBtn.querySelector("span").textContent = "Branch: " + item.dataset.branch;
+          demoDropdown.classList.remove("show");
+        });
+      });
+    }
+    renderBranchList();
+
+    demoDropdownBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      demoDropdown.classList.toggle("show");
+      renderBranchList();
+      setTimeout(() => demoFilter.focus(), 0);
+    });
+    demoFilter.addEventListener("input", renderBranchList);
+
+    // =========================================================
+    // Split button demo menu
+    // =========================================================
+    const demoSplitToggle = document.getElementById("demoSplitToggle");
+    const demoSplitMenu = document.getElementById("demoSplitMenu");
+    demoSplitToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      demoSplitMenu.classList.toggle("show");
+    });
+
+    // =========================================================
+    // Overlay demo
+    // =========================================================
+    const overlay = document.getElementById("demoOverlay");
+    const btnShowOverlay = document.getElementById("btnShowOverlay");
+    const btnCloseOverlay = document.getElementById("btnCloseOverlay");
+    const counter = document.getElementById("demoCounter");
+    const steps = Array.from(document.querySelectorAll("#demoSteps .step"));
+
+    async function runOverlay() {
+      overlay.classList.add("show");
+      counter.textContent = "0";
+      steps.forEach(s => {
+        s.classList.remove("active","done");
+        s.querySelector(".step-status").textContent = "queue";
+        s.querySelector(".step-indicator").innerHTML = "";
+      });
+
+      for (let i = 0; i < steps.length; i++) {
+        const step = steps[i];
+        step.classList.add("active");
+        step.querySelector(".step-indicator").innerHTML = '<div class="step-spinner"></div>';
+        step.querySelector(".step-status").textContent = "working…";
+        counter.textContent = String(i);
+        await new Promise(r => setTimeout(r, 500 + Math.random() * 600));
+        step.classList.remove("active");
+        step.classList.add("done");
+        step.querySelector(".step-indicator").textContent = "✓";
+        step.querySelector(".step-status").textContent = "done";
+        counter.textContent = String(i + 1);
+      }
+    }
+
+    btnShowOverlay.addEventListener("click", runOverlay);
+    btnCloseOverlay.addEventListener("click", () => overlay.classList.remove("show"));
+    overlay.addEventListener("click", (e) => { if (e.target === overlay) overlay.classList.remove("show"); });
+
+    // =========================================================
+    // Context menu demo
+    // =========================================================
+    const btnShowContextMenu = document.getElementById("btnShowContextMenu");
+    const cm = document.getElementById("demoContextMenu");
+    btnShowContextMenu.addEventListener("click", (e) => {
+      const rect = btnShowContextMenu.getBoundingClientRect();
+      cm.style.left = Math.min(rect.left, window.innerWidth - 200) + "px";
+      cm.style.top = (rect.bottom + 8) + "px";
+      cm.classList.toggle("show");
+      e.stopPropagation();
+    });
+
+    // =========================================================
+    // Close popovers on outside click + Esc
+    // =========================================================
+    document.addEventListener("click", () => {
+      demoDropdown.classList.remove("show");
+      demoSplitMenu.classList.remove("show");
+      cm.classList.remove("show");
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        demoDropdown.classList.remove("show");
+        demoSplitMenu.classList.remove("show");
+        cm.classList.remove("show");
+        overlay.classList.remove("show");
+      }
+    });
+
+    // Prevent clicks inside popovers from closing
+    [demoDropdown, demoSplitMenu, cm].forEach(el => el.addEventListener("click", (e) => e.stopPropagation()));
+  </script>
+</body>
+</html>
