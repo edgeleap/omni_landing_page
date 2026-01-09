@@ -1,0 +1,14 @@
+{
+  "name": "omni-commit",
+  "version": "1.0.0",
+  "module": "src/main.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --hot index.html",
+    "build": "bun run build.ts"
+  },
+  "devDependencies": {
+    "bun-types": "latest",
+    "typescript": "^5.0.0"
+  }
+}
