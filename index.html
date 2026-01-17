@@ -524,6 +524,9 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            min-width: 0;
         }
 
         .hero-app-window .select-wrapper {
@@ -572,6 +575,8 @@
             border-radius: 8px;
             padding: 3px;
             gap: 2px;
+            flex-shrink: 1;
+            min-width: 0;
         }
         .hero-app-window .toggle-btn {
             font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
@@ -587,6 +592,7 @@
             align-items: center;
             gap: 6px;
             white-space: nowrap;
+            flex-shrink: 0;
         }
         .hero-app-window .toggle-btn.active {
             background: #f4f4f5;
@@ -974,9 +980,6 @@
         @media (max-width: 768px) {
             .hero-app-window .sidebar {
                 display: none;
-            }
-            .hero-app-window .nav-bar {
-                flex-wrap: wrap;
             }
             .hero-app-window .shortcuts {
                 display: none;
