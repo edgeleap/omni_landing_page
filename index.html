@@ -486,9 +486,10 @@
             backdrop-filter: blur(12px);
         }
 
+        /* Window Header (macOS style) */
         .hero-app-window .window-header {
-            height: 44px;
-            padding: 0 14px;
+            height: 32px;
+            padding: 0 10px;
             border-bottom: 1px solid #e4e4e7;
             background: rgba(250,250,250,0.8);
             display: flex;
@@ -496,7 +497,11 @@
         }
 
         .hero-app-window .traffic-lights { display: flex; gap: 8px; flex-shrink: 0; }
-        .hero-app-window .traffic-light { width: 12px; height: 12px; border-radius: 50%; }
+        .hero-app-window .traffic-light { 
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
         .hero-app-window .traffic-light.red { background: #ff5f57; }
         .hero-app-window .traffic-light.yellow { background: #febc2e; }
         .hero-app-window .traffic-light.green { background: #28c840; }
@@ -504,7 +509,8 @@
         .hero-app-window .window-title {
             flex: 1;
             text-align: center;
-            font-size: 13px;
+            font-size: 12px;
+            font-weight: 500;
             font-family: 'JetBrains Mono', ui-monospace, monospace;
             color: #a1a1aa;
             letter-spacing: 0.02em;
@@ -1353,7 +1359,7 @@ Closes #1847</pre>
             <div class="container">
                 <div class="section-header">
                     <h2>Works where you work</h2>
-                    <p>Standalone CLI or integrated with your tools.</p>
+                    <p>Supports CLI that integrates with your tools.</p>
                 </div>
 
                 <div class="int-grid">
@@ -1379,7 +1385,7 @@ Closes #1847</pre>
         <section class="cta">
             <div class="container">
                 <h2>Ready to get started?</h2>
-                <p>Install in seconds. Transform your commits.</p>
+                <p>Install in seconds. For Mac, Linux and Windows.</p>
                 <div class="cta-buttons">
                     <a href="#" class="btn btn-default">npm i -g omni-git</a>
                     <a href="#" class="btn btn-outline">Read the docs</a>
