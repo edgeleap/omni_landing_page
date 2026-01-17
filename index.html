@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omni — AI Git Enrichment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: hsl(0 0% 3.9%);
+            --foreground: hsl(0 0% 98%);
+            --card: hsl(0 0% 3.9%);
+            --card-foreground: hsl(0 0% 98%);
+            --popover: hsl(0 0% 3.9%);
+            --popover-foreground: hsl(0 0% 98%);
+            --primary: hsl(0 0% 98%);
+            --primary-foreground: hsl(0 0% 9%);
+            --secondary: hsl(0 0% 14.9%);
+            --secondary-foreground: hsl(0 0% 98%);
+            --muted: hsl(0 0% 14.9%);
+            --muted-foreground: hsl(0 0% 63.9%);
+            --accent: hsl(0 0% 14.9%);
+            --accent-foreground: hsl(0 0% 98%);
+            --destructive: hsl(0 62.8% 30.6%);
+            --border: hsl(0 0% 14.9%);
+            --input: hsl(0 0% 14.9%);
+            --ring: hsl(0 0% 83.1%);
+            --radius: 0.5rem;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        ::selection {
+            background: var(--foreground);
+            color: var(--background);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1024px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            line-height: 1.2;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            width: 100%;
+            background: hsl(0 0% 3.9% / 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 3.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .logo-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: var(--foreground);
+            border-radius: 0.25rem;
+        }
+
+        .logo-icon svg {
+            width: 0.875rem;
+            height: 0.875rem;
+            color: var(--background);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        nav a:hover {
+            color: var(--foreground);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            border: none;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-default {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .btn-default:hover {
+            background: hsl(0 0% 90%);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--foreground);
+            border: 1px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            background: var(--accent);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--muted-foreground);
+        }
+
+        .btn-ghost:hover {
+            background: var(--accent);
+            color: var(--foreground);
+        }
+
+        .btn-sm {
+            height: 2rem;
+            padding: 0 0.75rem;
+            font-size: 0.8125rem;
+        }
+
+        .hero {
+            padding: 6rem 0 4rem;
+        }
+
+        .hero-content {
+            max-width: 42rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            color: var(--foreground);
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--muted-foreground);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        section {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header p {
+            color: var(--muted-foreground);
+        }
+
+        .compare-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 640px) {
+            .compare-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .compare-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .compare-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .compare-card-header h4 {
+            font-size: 0.8125rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-indicator {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+        }
+
+        .status-indicator.muted {
+            background: var(--muted-foreground);
+        }
+
+        .status-indicator.success {
+            background: hsl(142 76% 36%);
+        }
+
+        .compare-tag {
+            font-size: 0.625rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.25rem 0.5rem;
+            background: var(--secondary);
+            border-radius: 0.25rem;
+            color: var(--muted-foreground);
+        }
+
+        .compare-card-body {
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            line-height: 1.8;
+            color: var(--muted-foreground);
+            min-height: 10rem;
+        }
+
+        .compare-card-body pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .feature-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            transition: border-color 0.15s;
+        }
+
+        .feature-card:hover {
+            border-color: hsl(0 0% 25%);
+        }
+
+        .feature-card h4 {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.375rem;
+        }
+
+        .feature-card p {
+            font-size: 0.8125rem;
+            color: var(--muted-foreground);
+            line-height: 1.5;
+        }
+
+        .int-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 640px) {
+            .int-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .int-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+        }
+
+        .int-card h4 {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.375rem;
+        }
+
+        .int-card p {
+            font-size: 0.8125rem;
+            color: var(--muted-foreground);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .int-code {
+            background: var(--secondary);
+            border-radius: 0.375rem;
+            padding: 0.625rem 0.875rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--muted-foreground);
+        }
+
+        .cta {
+            text-align: center;
+            padding: 5rem 0;
+        }
+
+        .cta h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .cta p {
+            color: var(--muted-foreground);
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 1.5rem 0;
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        footer p {
+            font-size: 0.8125rem;
+            color: var(--muted-foreground);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            font-size: 0.8125rem;
+            color: var(--muted-foreground);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .footer-links a:hover {
+            color: var(--foreground);
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                display: none;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.25rem;
+            }
+        }
+
+        .compare-toggle {
+            display: inline-flex;
+            border-radius: 9999px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            overflow: hidden;
+            margin-bottom: 1rem;
+            font-size: 0.75rem;
+        }
+        .compare-toggle button {
+            padding: 0.25rem 0.75rem;
+            border: none;
+            background: transparent;
+            color: var(--muted-foreground);
+            cursor: pointer;
+        }
+        .compare-toggle button.active {
+            background: var(--foreground);
+            color: var(--background);
+        }
+
+        /* Hero app styles */
+        .hero-app-wrapper {
+            margin-top: 2.5rem;
+        }
+
+        .hero-app-window {
+            width: 100%;
+            max-width: 1000px;
+            background: rgba(255,255,255,0.95);
+            border: 1px solid #e4e4e7;
+            border-radius: 14px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.12);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+        }
+
+        .hero-app-window .window-header {
+            height: 44px;
+            padding: 0 14px;
+            border-bottom: 1px solid #e4e4e7;
+            background: rgba(250,250,250,0.8);
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-app-window .traffic-lights { display: flex; gap: 8px; flex-shrink: 0; }
+        .hero-app-window .traffic-light { width: 12px; height: 12px; border-radius: 50%; }
+        .hero-app-window .traffic-light.red { background: #ff5f57; }
+        .hero-app-window .traffic-light.yellow { background: #febc2e; }
+        .hero-app-window .traffic-light.green { background: #28c840; }
+
+        .hero-app-window .window-title {
+            flex: 1;
+            text-align: center;
+            font-size: 13px;
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            color: #a1a1aa;
+            letter-spacing: 0.02em;
+        }
+        .hero-app-window .window-spacer { width: 52px; }
+
+        .hero-app-window .nav-bar {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e4e4e7;
+            background: rgba(250,250,250,0.5);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hero-app-window .select-wrapper {
+            position: relative;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .hero-app-window .select-field {
+            appearance: none;
+            background: rgba(255,255,255,0.8);
+            border: 1px solid #e4e4e7;
+            border-radius: 8px;
+            padding: 8px 32px 8px 36px;
+            font-size: 13px;
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            color: #18181b;
+            cursor: pointer;
+        }
+        .hero-app-window .select-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            width: 14px;
+            height: 14px;
+            opacity: 0.5;
+            color: #18181b;
+        }
+        .hero-app-window .select-chevron {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            width: 12px;
+            height: 12px;
+            opacity: 0.5;
+            color: #18181b;
+        }
+
+        .hero-app-window .toggle-group {
+            display: flex;
+            background: rgba(255,255,255,0.9);
+            border: 1px solid #e4e4e7;
+            border-radius: 8px;
+            padding: 3px;
+            gap: 2px;
+        }
+        .hero-app-window .toggle-btn {
+            font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 6px;
+            border: none;
+            background: transparent;
+            color: #52525b;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+        .hero-app-window .toggle-btn.active {
+            background: #ffffff;
+            color: #18181b;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .hero-app-window .toggle-btn svg {
+            width: 14px;
+            height: 14px;
+            opacity: 0.6;
+            flex-shrink: 0;
+        }
+        .hero-app-window .toggle-btn.active svg { opacity: 1; }
+
+        .hero-app-window .spacer { flex: 1; }
+
+        .hero-app-window .icon-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid #e4e4e7;
+            background: rgba(255,255,255,0.8);
+            color: #52525b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .hero-app-window .icon-btn svg { width: 16px; height: 16px; }
+
+        .hero-app-window .main-content {
+            display: flex;
+            min-height: 300px;
+            flex: 1;
+        }
+
+        .hero-app-window .sidebar {
+            width: 260px;
+            border-right: 1px solid #e4e4e7;
+            background: rgba(250,250,250,0.5);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .hero-app-window .sidebar-section {
+            padding: 12px;
+            border-bottom: 1px solid rgba(228,228,231,0.5);
+        }
+        .hero-app-window .sidebar-section:last-child { border-bottom: none; }
+
+        .hero-app-window .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .hero-app-window .section-header .label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #52525b;
+        }
+        .hero-app-window .section-header .meta {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 11px;
+            color: #a1a1aa;
+        }
+
+        .hero-app-window .filter-input {
+            width: 100%;
+            background: rgba(255,255,255,0.9);
+            border: 1px solid #e4e4e7;
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 12px;
+            color: #a1a1aa;
+        }
+
+        .hero-app-window .file-list { flex: 1; overflow-y: auto; }
+
+        .hero-app-window .checkbox {
+            width: 16px;
+            height: 16px;
+            appearance: none;
+            border: 1.5px solid #d4d4d8;
+            border-radius: 4px;
+            background: #ffffff;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .hero-app-window .checkbox:checked {
+            background: #18181b;
+            border-color: #18181b;
+        }
+        .hero-app-window .checkbox:checked::after {
+            content: "✓";
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .hero-app-window .file-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 8px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 12px;
+            color: #52525b;
+        }
+
+        .hero-app-window .file-status {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .hero-app-window .file-status.M { background: rgba(217,119,6,0.12); color: #d97706; }
+        .hero-app-window .file-status.A { background: rgba(22,163,74,0.12); color: #16a34a; }
+
+        .hero-app-window .file-path {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .hero-app-window .file-changes {
+            font-size: 10px;
+            color: #a1a1aa;
+            white-space: nowrap;
+        }
+        .hero-app-window .file-changes .add { color: #16a34a; }
+        .hero-app-window .file-changes .rem { color: #dc2626; }
+
+        .hero-app-window .commit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 6px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #52525b;
+            cursor: pointer;
+        }
+        .hero-app-window .commit-item.active { background: rgba(0,0,0,0.04); }
+        .hero-app-window .commit-item .checkbox { margin-top: 2px; }
+        .hero-app-window .commit-item .commit-info { flex: 1; min-width: 0; }
+        .hero-app-window .commit-item .commit-title {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 12px;
+            color: #52525b;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .hero-app-window .commit-item .commit-subtitle {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 11px;
+            color: #a1a1aa;
+            margin-top: 2px;
+        }
+
+        .hero-app-window .details-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: rgba(244,244,245,0.5);
+        }
+
+        .hero-app-window .details-toolbar {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e4e4e7;
+            background: rgba(250,250,250,0.6);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .hero-app-window .toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #52525b;
+        }
+
+        .hero-app-window .toolbar-right { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+
+        .hero-app-window .app-btn {
+            font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: 1px solid #e4e4e7;
+            background: rgba(255,255,255,0.8);
+            color: #18181b;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .hero-app-window .app-btn-primary {
+            background: #18181b;
+            color: #fff;
+            border-color: transparent;
+        }
+        .hero-app-window .app-btn .icon { width: 14px; height: 14px; opacity: 0.7; }
+        .hero-app-window .app-btn .chevron { width: 12px; height: 12px; opacity: 0.5; }
+
+        .hero-app-window .split-btn { display: inline-flex; }
+        .hero-app-window .app-btn-split-left {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-right: none;
+            position: relative;
+        }
+        .hero-app-window .app-btn-split-left::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 20%;
+            height: 60%;
+            width: 1px;
+            background: rgba(255,255,255,0.25);
+        }
+        .hero-app-window .app-btn-split-right {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            border-left: none;
+            padding: 8px 10px;
+        }
+
+        .hero-app-window .details-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .hero-app-window .form-group { margin-bottom: 16px; }
+        .hero-app-window .form-group.flex-grow {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-app-window .form-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 600;
+            color: #52525b;
+            margin-bottom: 8px;
+        }
+        .hero-app-window .form-label .char-count {
+            font-weight: 400;
+            color: #a1a1aa;
+        }
+
+        .hero-app-window .form-input {
+            width: 100%;
+            background: rgba(255,255,255,0.9);
+            border: 1px solid #e4e4e7;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+            font-size: 13px;
+            color: #18181b;
+        }
+
+        .hero-app-window textarea.form-input {
+            flex: 1;
+            min-height: 80px;
+            resize: none;
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            line-height: 1.6;
+        }
+
+        .hero-app-window .detail-files {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid #e4e4e7;
+        }
+
+        .hero-app-window .detail-files-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .hero-app-window .detail-files-header span:first-child {
+            font-size: 11px;
+            font-weight: 600;
+            color: #52525b;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .hero-app-window .detail-files-stats {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 11px;
+            color: #a1a1aa;
+            display: flex;
+            gap: 10px;
+        }
+        .hero-app-window .detail-files-stats .add { color: #16a34a; }
+        .hero-app-window .detail-files-stats .rem { color: #dc2626; }
+
+        .hero-app-window .detail-files-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .hero-app-window .file-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            background: #ffffff;
+            border: 1px solid #e4e4e7;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 11px;
+            color: #52525b;
+        }
+        .hero-app-window .file-pill .file-status {
+            width: 16px;
+            height: 16px;
+            font-size: 9px;
+        }
+        .hero-app-window .file-pill .file-changes {
+            font-size: 10px;
+            margin-left: 4px;
+        }
+
+        .hero-app-window .bottom-bar {
+            padding: 12px 16px;
+            border-top: 1px solid #e4e4e7;
+            background: rgba(255,255,255,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hero-app-window .shortcuts {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 11px;
+            color: #a1a1aa;
+        }
+        .hero-app-window .shortcut {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hero-app-window .kbd {
+            padding: 2px 4px;
+            background: rgba(0,0,0,0.04);
+            border: 1px solid #e4e4e7;
+            border-radius: 4px;
+            font-size: 10px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            color: #52525b;
+        }
+
+        .hero-app-window .bottom-bar-actions { display: flex; gap: 10px; }
+
+        @media (max-width: 768px) {
+            .hero-app-window .sidebar {
+                display: none;
+            }
+            .hero-app-window .nav-bar {
+                flex-wrap: wrap;
+            }
+            .hero-app-window .shortcuts {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <circle cx="12" cy="12" r="4"/>
+                            <path d="M12 2v4M12 18v4"/>
+                        </svg>
+                    </div>
+                    omni
+                </div>
+                <nav>
+                    <a href="#compare">Compare</a>
+                    <a href="#features">Features</a>
+                    <a href="#integrations">Integrations</a>
+                </nav>
+                <div class="header-actions">
+                    <a href="#" class="btn btn-ghost btn-sm">GitHub</a>
+                    <a href="#" class="btn btn-default btn-sm">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>AI Git Enrichment</h1>
+                    <p>
+                        Enrich your git actions with AI that reads diffs, issues, docs, and custom input.
+                        Go from what changed to why it matters.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#" class="btn btn-default">Copy curl to clipboard</a>
+                        <a href="https://github/edgleap/omni/releases" class="btn btn-outline">Change-log</a>
+                    </div>
+                </div>
+
+                <!-- Hero App -->
+                <div class="hero-app-wrapper">
+                    <div class="hero-app-window">
+                        <div class="window-header">
+                            <div class="traffic-lights">
+                                <div class="traffic-light red"></div>
+                                <div class="traffic-light yellow"></div>
+                                <div class="traffic-light green"></div>
+                            </div>
+                            <div class="window-title">Omni</div>
+                            <div class="window-spacer"></div>
+                        </div>
+
+                        <div class="nav-bar">
+                            <div class="select-wrapper">
+                                <svg class="select-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                                </svg>
+                                <select class="select-field">
+                                    <option>omni-app</option>
+                                </select>
+                                <svg class="select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+
+                            <div class="toggle-group">
+                                <button class="toggle-btn active">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="4"></circle>
+                                        <line x1="1.05" y1="12" x2="7" y2="12"></line>
+                                        <line x1="17.01" y1="12" x2="22.96" y2="12"></line>
+                                    </svg>
+                                    Commit
+                                </button>
+                                <button class="toggle-btn">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="18" cy="18" r="3"></circle>
+                                        <circle cx="6" cy="6" r="3"></circle>
+                                        <path d="M13 6h3a2 2 0 0 1 2 2v7"></path>
+                                        <line x1="6" y1="9" x2="6" y2="21"></line>
+                                    </svg>
+                                    Pull Request
+                                </button>
+                                <button class="toggle-btn">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                                        <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                                    </svg>
+                                    Release
+                                </button>
+                            </div>
+
+                            <div class="spacer"></div>
+
+                            <button class="icon-btn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="main-content">
+                            <div class="sidebar">
+                                <div class="sidebar-section">
+                                    <div class="section-header">
+                                        <span class="label">File changes</span>
+                                        <span class="meta">4 Files</span>
+                                    </div>
+                                    <input type="text" class="filter-input" placeholder="Filter files..." disabled />
+                                </div>
+                                <div class="sidebar-section file-list">
+                                    <div class="file-item">
+                                        <input type="checkbox" class="checkbox" checked />
+                                        <span class="file-path">src/auth/login.ts</span>
+                                        <span class="file-changes"><span class="add">+84</span> <span class="rem">-12</span></span>
+                                        <span class="file-status M">M</span>
+                                    </div>
+                                    <div class="file-item">
+                                        <input type="checkbox" class="checkbox" checked />
+                                        <span class="file-path">src/auth/session.ts</span>
+                                        <span class="file-changes"><span class="add">+51</span> <span class="rem">-8</span></span>
+                                        <span class="file-status M">M</span>
+                                    </div>
+                                    <div class="file-item">
+                                        <input type="checkbox" class="checkbox" checked />
+                                        <span class="file-path">src/api/client.ts</span>
+                                        <span class="file-changes"><span class="add">+33</span> <span class="rem">-6</span></span>
+                                        <span class="file-status M">M</span>
+                                    </div>
+                                    <div class="file-item">
+                                        <input type="checkbox" class="checkbox" checked />
+                                        <span class="file-path">tests/auth.spec.ts</span>
+                                        <span class="file-changes"><span class="add">+44</span> <span class="rem">-3</span></span>
+                                        <span class="file-status A">A</span>
+                                    </div>
+                                </div>
+
+                                <div class="sidebar-section">
+                                    <div class="section-header">
+                                        <span class="label">Proposed commits</span>
+                                        <span class="meta">3 / 3</span>
+                                    </div>
+                                    <div class="commit-item active">
+                                        <input type="checkbox" class="checkbox" checked />
+                                        <div class="commit-info">
+                                            <div class="commit-title">feat(auth): login flow for SSO rollout.</div>
+                                            <div class="commit-subtitle">4 files · +166 · -23</div>
+                                        </div>
+                                    </div>
+                                    <div class="commit-item">
+                                        <input type="checkbox" class="checkbox" checked />
+                                        <div class="commit-info">
+                                            <div class="commit-title">refactor(api): isolate clien…</div>
+                                            <div class="commit-subtitle">1 file · +33 · -6</div>
+                                        </div>
+                                    </div>
+                                    <div class="commit-item">
+                                        <input type="checkbox" class="checkbox" checked />
+                                        <div class="commit-info">
+                                            <div class="commit-title">test(auth): cover login happ…</div>
+                                            <div class="commit-subtitle">1 file · +44 · -0</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="details-panel">
+                                <div class="details-toolbar">
+                                    <div class="toolbar-left">
+                                        <input type="checkbox" class="checkbox" checked />
+                                        <span>Auto-split commits</span>
+                                    </div>
+                                    <div class="toolbar-right">
+                                        <button class="app-btn">
+                                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M6 3v12"></path>
+                                                <circle cx="18" cy="6" r="3"></circle>
+                                                <circle cx="6" cy="18" r="3"></circle>
+                                                <path d="M18 9a9 9 0 0 1-9 9"></path>
+                                            </svg>
+                                            Branch: main
+                                            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="6 9 12 15 18 9"></polyline>
+                                            </svg>
+                                        </button>
+                                        <div class="split-btn">
+                                            <button class="app-btn app-btn-primary app-btn-split-left">Generate commit</button>
+                                            <button class="app-btn app-btn-primary app-btn-split-right">
+                                                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="details-content">
+                                    <div class="form-group">
+                                        <div class="form-label">
+                                            <span>Title</span>
+                                            <span class="char-count">54 chars</span>
+                                        </div>
+                                        <input type="text" class="form-input" value="feat(auth): login flow for SSO rollout." />
+                                    </div>
+
+                                    <div class="form-group flex-grow">
+                                        <div class="form-label">
+                                            <span>Description</span>
+                                            <span class="char-count">196 chars</span>
+                                        </div>
+                                        <textarea class="form-input">Wire session handling between login.ts and session.ts,
+using the stateless pattern from auth-spec.md.
+— Fixes #412: mobile blocked since v2.3 broke OAuth.
+— Flagged P0 by Sarah in PR #389.</textarea>
+                                    </div>
+
+                                    <div class="detail-files">
+                                        <div class="detail-files-header">
+                                            <span>Files in commit</span>
+                                            <div class="detail-files-stats">
+                                                <span>4 files</span>
+                                                <span class="add">+166 insertions</span>
+                                                <span class="rem">-23 deletions</span>
+                                            </div>
+                                        </div>
+                                        <div class="detail-files-grid">
+                                            <div class="file-pill">
+                                                <span class="file-status M">M</span>
+                                                <span>src/auth/login.ts</span>
+                                                <span class="file-changes"><span class="add">+84</span> <span class="rem">-12</span></span>
+                                            </div>
+                                            <div class="file-pill">
+                                                <span class="file-status M">M</span>
+                                                <span>src/auth/session.ts</span>
+                                                <span class="file-changes"><span class="add">+51</span> <span class="rem">-8</span></span>
+                                            </div>
+                                            <div class="file-pill">
+                                                <span class="file-status M">M</span>
+                                                <span>src/ui/Button.tsx</span>
+                                                <span class="file-changes"><span class="add">+22</span> <span class="rem">-2</span></span>
+                                            </div>
+                                            <div class="file-pill">
+                                                <span class="file-status M">M</span>
+                                                <span>README.md</span>
+                                                <span class="file-changes"><span class="add">+9</span> <span class="rem">-1</span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bottom-bar">
+                            <div class="shortcuts">
+                                <span class="shortcut"><span class="kbd">␛</span> Cancel</span>
+                                <span class="shortcut"><span class="kbd">⏎</span> Commit</span>
+                                <span class="shortcut"><span class="kbd">⇧</span><span class="kbd">⏎</span> Commit & Push</span>
+                            </div>
+                            <div class="bottom-bar-actions">
+                                <button class="app-btn">Cancel</button>
+                                <div class="split-btn">
+                                    <button class="app-btn app-btn-primary app-btn-split-left">Commit</button>
+                                    <button class="app-btn app-btn-primary app-btn-split-right">
+                                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="6 9 12 15 18 9"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="compare">
+            <div class="container">
+                <div class="section-header">
+                    <h2>See the difference</h2>
+                    <p>Compare generic AI output with context-aware messages.</p>
+                </div>
+
+                <div class="compare-toggle">
+                    <button type="button" class="compare-mode active" data-mode="commit">Commit</button>
+                    <button type="button" class="compare-mode" data-mode="pr">PR</button>
+                    <button type="button" class="compare-mode" data-mode="release">Release</button>
+                </div>
+
+                <div class="compare-grid">
+                    <div class="compare-card">
+                        <div class="compare-card-header">
+                            <h4>
+                                <span class="status-indicator muted"></span>
+                                Without Omni
+                            </h4>
+                            <span class="compare-tag">Diff only</span>
+                        </div>
+                        <div class="compare-card-body">
+<pre id="compare-without">fix: update user validation logic
+
+- Modified validateUser() in auth.ts
+- Added null check for email field
+- Updated regex pattern for password</pre>
+                        </div>
+                    </div>
+                    <div class="compare-card">
+                        <div class="compare-card-header">
+                            <h4>
+                                <span class="status-indicator success"></span>
+                                With Omni
+                            </h4>
+                            <span class="compare-tag">Context aware</span>
+                        </div>
+                        <div class="compare-card-body">
+<pre id="compare-with">fix: prevent lockouts from OAuth migration
+
+Users migrating from 2023 OAuth1 system hit validation
+errors—emails with uppercase were rejected.
+
+Caused 340+ support tickets last week.
+
+Relaxed email validation to case-insensitive. Added
+fallback for pre-2024 password requirements.
+
+Closes #1847</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Context sources</h2>
+                    <p>Multiple context sources, powered by local or remote AI.</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h4>Git Diff</h4>
+                        <p>Analyzes code changes to understand modifications.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Linked Issues</h4>
+                        <p>Reads GitHub issues for problem context.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Readme &amp; Docs</h4>
+                        <p>References documentation for architecture context.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Pull Request Discussions</h4>
+                        <p>Incorporates review discussions and feedback.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Commit History</h4>
+                        <p>Learns patterns for consistency and context.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Custom Input</h4>
+                        <p>Add your own context via prompt input or config.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="integrations">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Works where you work</h2>
+                    <p>Standalone CLI or integrated with your tools.</p>
+                </div>
+
+                <div class="int-grid">
+                    <div class="int-card">
+                        <h4>Omni CLI (coming soon)</h4>
+                        <p>Standalone terminal tool that works with any editor or agent.</p>
+                        <div class="int-code">$ omni commit --with-issue</div>
+                    </div>
+                    <div class="int-card">
+                        <h4>Cursor Rules (coming soon)</h4>
+                        <p>Add to .cursorrules for automatic enrichment.</p>
+                        <div class="int-code">.cursorrules + omni.config</div>
+                    </div>
+                    <div class="int-card">
+                        <h4>Claude Code (coming soon)</h4>
+                        <p>Integrate via CLAUDE.md for all git operations.</p>
+                        <div class="int-code">CLAUDE.md + omni</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <div class="container">
+                <h2>Ready to get started?</h2>
+                <p>Install in seconds. Transform your commits.</p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-default">npm i -g omni-git</a>
+                    <a href="#" class="btn btn-outline">Read the docs</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>© 2026 omni. MIT License.</p>
+                <div class="footer-links">
+                    <a href="#">Documentation</a>
+                    <a href="#">GitHub</a>
+                    <a href="#">Discord</a>
+                    <a href="#">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const compareData = {
+            commit: {
+                without: `fix: update user validation logic
+
+- Modified validateUser() in auth.ts
+- Added null check for email field
+- Updated regex pattern for password`,
+                with: `fix: prevent lockouts from OAuth migration
+
+Users migrating from 2023 OAuth1 system hit validation
+errors—emails with uppercase were rejected.
+
+Caused 340+ support tickets last week.
+
+Relaxed email validation to case-insensitive. Added
+fallback for pre-2024 password requirements.
+
+Closes #1847`
+            },
+            pr: {
+                without: `## Changes
+- Refactored PaymentService class
+- Added retry logic to API calls
+- Updated tests
+
+## Files
+- src/services/payment.ts
+- src/services/payment.test.ts`,
+                with: `## Problem
+Stripe fails silently at peak traffic. Black Friday:
+12% failed charges discovered via complaints.
+
+## Solution
+Exponential backoff + jitter. Dead-letter queue for
+manual reconciliation by finance.
+
+## Rollback
+Feature flag: PAYMENT_RETRY_V2`
+            },
+            release: {
+                without: `## v2.4.0
+
+### Features
+- Added dark mode toggle
+- New CSV export button
+
+### Fixes
+- Fixed login redirect
+- Resolved memory leak`,
+                with: `## v2.4.0 — Finally, Dark Mode
+
+### 🌙 Dark Mode
+2,847 upvotes later—it's here. Respects system prefs.
+
+### 🗂 CSV Export
+For enterprise compliance. Required for SOC 2 (Mar).
+
+### 🔧 Fixes
+Auth race condition · Subscription leak (2GB+ / 30m)`
+            }
+        };
+
+        const withoutEl = document.getElementById('compare-without');
+        const withEl = document.getElementById('compare-with');
+        const modeButtons = document.querySelectorAll('.compare-mode');
+
+        function setMode(mode) {
+            const data = compareData[mode];
+            withoutEl.textContent = data.without;
+            withEl.textContent = data.with;
+            modeButtons.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.mode === mode);
+            });
+        }
+
+        modeButtons.forEach(btn => {
+            btn.addEventListener('click', () => setMode(btn.dataset.mode));
+        });
+
+        setMode('commit');
+    </script>
+</body>
+</html>
