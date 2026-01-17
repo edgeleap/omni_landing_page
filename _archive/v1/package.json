@@ -1,9 +1,0 @@
-{
-  "name": "omni-landing",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "bun ./src/index.html",
-    "build": "bun build ./src/index.html --minify --outdir=dist"
-  }
-}
