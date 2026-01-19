@@ -203,117 +203,6 @@
         .hero-buttons {
             display: flex;
             gap: 0.75rem;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        /* Install command styles */
-        .install-command-wrapper {
-            margin-top: 1.5rem;
-        }
-
-        .install-command-box {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            background: var(--secondary);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 0.75rem 1rem;
-            max-width: 100%;
-            overflow: hidden;
-        }
-
-        .install-command-box code {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8125rem;
-            color: var(--foreground);
-            flex: 1;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-
-        .install-command-box .copy-btn {
-            background: transparent;
-            border: none;
-            color: var(--muted-foreground);
-            cursor: pointer;
-            padding: 0.25rem;
-            border-radius: 0.25rem;
-            transition: all 0.15s;
-            flex-shrink: 0;
-        }
-
-        .install-command-box .copy-btn:hover {
-            color: var(--foreground);
-            background: var(--accent);
-        }
-
-        .install-command-box .copy-btn svg {
-            width: 1rem;
-            height: 1rem;
-        }
-
-        .os-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.375rem;
-            font-size: 0.75rem;
-            color: var(--muted-foreground);
-            margin-top: 0.5rem;
-        }
-
-        .os-indicator svg {
-            width: 0.875rem;
-            height: 0.875rem;
-        }
-
-        .os-tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .os-tab {
-            font-size: 0.75rem;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--muted-foreground);
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-
-        .os-tab:hover {
-            color: var(--foreground);
-        }
-
-        .os-tab.active {
-            background: var(--foreground);
-            color: var(--background);
-            border-color: var(--foreground);
-        }
-
-        .copied-toast {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%) translateY(100%);
-            background: var(--foreground);
-            color: var(--background);
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--radius);
-            font-size: 0.875rem;
-            font-weight: 500;
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 100;
-        }
-
-        .copied-toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
         }
 
         section {
@@ -509,11 +398,6 @@
             display: flex;
             justify-content: center;
             gap: 0.75rem;
-        }
-
-        .cta .install-command-wrapper {
-            max-width: 600px;
-            margin: 1.5rem auto 0;
         }
 
         footer {
@@ -1123,7 +1007,7 @@
                 </nav>
                 <div class="header-actions">
                     <a href="https://edgeleap.github.io/" class="btn btn-ghost btn-sm">GitHub</a>
-                    <a href="#" class="btn btn-default btn-sm" onclick="copyInstallCommand(event)">Get Started</a>
+                    <a href="#" class="btn btn-default btn-sm">Get Started</a>
                 </div>
             </div>
         </div>
@@ -1139,32 +1023,8 @@
                         Go from what changed to why it matters.
                     </p>
                     <div class="hero-buttons">
-                        <a href="https://github.com/edgeleap/omni-app/releases" class="btn btn-outline">Change-log</a>
-                    </div>
-                    
-                    <!-- Install command with OS detection -->
-                    <div class="install-command-wrapper">
-                        <div class="os-tabs">
-                            <button class="os-tab" data-os="mac" onclick="setOS('mac')">macOS</button>
-                            <button class="os-tab" data-os="linux" onclick="setOS('linux')">Linux</button>
-                            <button class="os-tab" data-os="windows" onclick="setOS('windows')">Windows</button>
-                        </div>
-                        <div class="install-command-box">
-                            <code id="install-command"></code>
-                            <button class="copy-btn" onclick="copyInstallCommand(event)" title="Copy to clipboard">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="os-indicator" id="os-indicator">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <path d="M12 16v-4M12 8h.01"></path>
-                            </svg>
-                            <span id="os-indicator-text">Detected: macOS</span>
-                        </div>
+                        <a href="#" class="btn btn-default">Copy curl</a>
+                        <a href="https://github/edgleap/omni/releases" class="btn btn-outline">Change-log</a>
                     </div>
                 </div>
 
@@ -1528,27 +1388,9 @@ Closes #1847</pre>
             <div class="container">
                 <h2>Ready to get started?</h2>
                 <p>Install in seconds. For Mac, Linux and Windows.</p>
-                
-                <!-- CTA Install command with OS detection -->
-                <div class="install-command-wrapper">
-                    <div class="os-tabs">
-                        <button class="os-tab cta-os-tab" data-os="mac" onclick="setOS('mac')">macOS</button>
-                        <button class="os-tab cta-os-tab" data-os="linux" onclick="setOS('linux')">Linux</button>
-                        <button class="os-tab cta-os-tab" data-os="windows" onclick="setOS('windows')">Windows</button>
-                    </div>
-                    <div class="install-command-box">
-                        <code id="cta-install-command"></code>
-                        <button class="copy-btn" onclick="copyInstallCommand(event)" title="Copy to clipboard">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="cta-buttons" style="margin-top: 1.5rem;">
-                    <a href="https://github.com/edgeleap/omni-app/releases" class="btn btn-outline">Change-log</a>
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-default">Copy curl</a>
+                    <a href="https://github/edgleap/omni/releases" class="btn btn-outline">Change-log</a>
                 </div>
             </div>
         </section>
@@ -1565,88 +1407,7 @@ Closes #1847</pre>
         </div>
     </footer>
 
-    <!-- Toast notification -->
-    <div class="copied-toast" id="copied-toast">Copied to clipboard!</div>
-
     <script>
-        // Install commands for different operating systems
-        const installCommands = {
-            mac: 'curl -fsSL https://edgeleap.github.io/omni.sh | bash',
-            linux: 'curl -fsSL https://edgeleap.github.io/omni.sh | bash',
-            windows: 'irm https://edgeleap.github.io/omni.ps1 | iex'
-        };
-
-        const osNames = {
-            mac: 'macOS',
-            linux: 'Linux',
-            windows: 'Windows'
-        };
-
-        let currentOS = 'mac';
-
-        // Detect user's operating system
-        function detectOS() {
-            const userAgent = navigator.userAgent.toLowerCase();
-            const platform = navigator.platform.toLowerCase();
-            
-            if (userAgent.includes('win') || platform.includes('win')) {
-                return 'windows';
-            } else if (userAgent.includes('mac') || platform.includes('mac')) {
-                return 'mac';
-            } else if (userAgent.includes('linux') || platform.includes('linux')) {
-                return 'linux';
-            }
-            
-            // Default to mac if unable to detect
-            return 'mac';
-        }
-
-        // Set the active OS and update UI
-        function setOS(os) {
-            currentOS = os;
-            
-            // Update command displays
-            document.getElementById('install-command').textContent = installCommands[os];
-            document.getElementById('cta-install-command').textContent = installCommands[os];
-            
-            // Update OS indicator
-            document.getElementById('os-indicator-text').textContent = `Showing: ${osNames[os]}`;
-            
-            // Update all OS tabs
-            document.querySelectorAll('.os-tab').forEach(tab => {
-                tab.classList.toggle('active', tab.dataset.os === os);
-            });
-        }
-
-        // Copy install command to clipboard
-        function copyInstallCommand(event) {
-            event.preventDefault();
-            const command = installCommands[currentOS];
-            
-            navigator.clipboard.writeText(command).then(() => {
-                showToast();
-            }).catch(err => {
-                // Fallback for older browsers
-                const textarea = document.createElement('textarea');
-                textarea.value = command;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                showToast();
-            });
-        }
-
-        // Show toast notification
-        function showToast() {
-            const toast = document.getElementById('copied-toast');
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
-        }
-
-        // Compare section functionality
         const compareData = {
             commit: {
                 without: `fix: update user validation logic
@@ -1726,12 +1487,7 @@ Auth race condition · Subscription leak (2GB+ / 30m)`
             btn.addEventListener('click', () => setMode(btn.dataset.mode));
         });
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            const detectedOS = detectOS();
-            setOS(detectedOS);
-            setMode('commit');
-        });
+        setMode('commit');
     </script>
 </body>
 </html>
