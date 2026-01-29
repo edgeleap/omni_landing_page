@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omni - AI Git Enrichment Pitch Deck</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            --sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+            --radius: 10px;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #09090b;
+            --bg-tertiary: #141414;
+            --bg-hover: #1a1a1a;
+            --border: #27272a;
+            --border-light: #3f3f46;
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --accent: #fafafa;
+            --accent-dim: rgba(255,255,255,0.08);
+            --green: #22c55e;
+            --orange: #fb923c;
+            --blue: #3b82f6;
+            --purple: #a855f7;
+            --body-gradient: linear-gradient(to bottom, #0a0a0a, #141414);
+            --surface-card: rgba(20, 20, 20, 0.7);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            font-family: var(--sans);
+            background: var(--body-gradient);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .slide {
+            width: 960px;
+            height: 540px;
+            margin: 40px auto;
+            display: flex;
+            flex-direction: column;
+            padding: 48px;
+            background: var(--surface-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            gap: 24px;
+        }
+
+        .cover-slide {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 24px;
+            flex: 1;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+            margin: 0;
+        }
+
+        .title-large {
+            font-size: 4.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: var(--mono);
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .subtitle-large {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            letter-spacing: -0.5px;
+        }
+
+        .tagline {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            letter-spacing: 0px;
+            max-width: 600px;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            max-width: 100%;
+        }
+
+        .heading-accent {
+            color: var(--orange);
+        }
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            flex: 1;
+        }
+
+        .feature-card {
+            background: rgba(251, 146, 60, 0.08);
+            border: 1px solid rgba(251, 146, 60, 0.25);
+            border-radius: 8px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--orange);
+            background: rgba(251, 146, 60, 0.12);
+        }
+
+        .feature-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--orange);
+            margin: 0;
+        }
+
+        .feature-description {
+            font-size: 0.8rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .footer-text {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-family: var(--mono);
+            letter-spacing: 0.5px;
+        }
+
+        .footer {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-family: var(--mono);
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+            border-bottom: 1px solid var(--text-muted);
+            transition: all 0.2s ease;
+        }
+
+        .footer a:hover {
+            color: var(--green);
+            border-bottom-color: var(--green);
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            flex: 1;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .list-item {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .list-item:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--orange);
+            font-weight: 600;
+        }
+
+        .stat-block {
+            background: rgba(251, 146, 60, 0.08);
+            border: 1px solid rgba(251, 146, 60, 0.25);
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--orange);
+            margin: 0;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin: 8px 0 0 0;
+        }
+
+        .highlight {
+            color: var(--green);
+        }
+
+        .budget-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .budget-table td {
+            padding: 12px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .budget-table td:first-child {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .budget-table td:last-child {
+            text-align: right;
+            color: var(--orange);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- SLIDE 1: COVER -->
+    <section class="slide">
+        <div class="cover-slide">
+            <h1 class="title-large">Omni</h1>
+            <p class="subtitle-large">AI Git Enrichment</p>
+            <p class="tagline">From Chaos to Sanity in Agentic Coding</p>
+        </div>
+        <div class="footer">
+            <a href="https://edgeleap.github.io/omni_landing_page/" target="_blank" rel="noopener noreferrer">https://edgeleap.github.io/omni_landing_page/</a>
+        </div>
+    </section>
+
+    <!-- SLIDE 2: PROBLEM -->
+    <section class="slide">
+        <div class="header">
+            <p class="subtitle">Problem Statement</p>
+            <h1><span class="heading-accent">Current</span> Problem</h1>
+        </div>
+
+        <p class="description">Agentic coding tools like Claude-Code & Cursor generate a lot of git noise, 100s of commits with shallow AI-generated descriptions, based on whatever snapshot the AI is currently looking at, this used to require 1/10th of the commits when previously written by humans.</p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <h2 class="feature-title">Git Noise Explosion</h2>
+                <p class="feature-description">100s of commits per day instead of a handful. AI agents commit constantly.</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Shallow Descriptions</h2>
+                <p class="feature-description">AI-generated commit messages lack context and meaningful intent.</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Snapshot-Based</h2>
+                <p class="feature-description">AI only sees current state, missing project history and reasoning.</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Lost Context</h2>
+                <p class="feature-description">Why decisions were made gets buried under volume of changes.</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">10x More Commits</h2>
+                <p class="feature-description">What humans did in 10 commits, AI agents do in 100+.</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Harder to Review</h2>
+                <p class="feature-description">Code review becomes overwhelming with noisy git history.</p>
+            </div>
+        </div>
+
+        <p class="footer-text">Omni — Developer Intelligence Platform</p>
+    </section>
+
+    <!-- SLIDE 3: SOLUTION HIGH-LEVEL -->
+    <section class="slide solution-high-level-slide">
+        <div class="header" style="gap: 5px;">
+            <p class="subtitle" style="font-size: 0.6rem;">One Intelligence Layer</p>
+            <h1 style="font-size: 1.6rem;">Our <span class="heading-accent" style="color: #22c55e;">Solution</span></h1>
+            <p class="tagline" style="font-size: 0.65rem; color: var(--text-secondary); line-height: 1.4;">Omni extracts context from many sources, can smartly reduce amount of commits, and injects the all important "why" into every git interaction performed.</p>
+        </div>
+
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 20px 0;">
+            <!-- Enrichment Layer -->
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; max-width: 680px;">
+                <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px; text-align: center; font-size: 0.62rem; font-family: var(--mono); color: var(--text-secondary); font-weight: 500; letter-spacing: 0.2px;">Code diff</div>
+                <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px; text-align: center; font-size: 0.62rem; font-family: var(--mono); color: var(--text-secondary); font-weight: 500; letter-spacing: 0.2px;">GitHub Issues</div>
+                <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px; text-align: center; font-size: 0.62rem; font-family: var(--mono); color: var(--text-secondary); font-weight: 500; letter-spacing: 0.2px;">GitHub PRs</div>
+                <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px; text-align: center; font-size: 0.62rem; font-family: var(--mono); color: var(--text-secondary); font-weight: 500; letter-spacing: 0.2px;">Business Logic</div>
+                <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px; text-align: center; font-size: 0.62rem; font-family: var(--mono); color: var(--text-secondary); font-weight: 500; letter-spacing: 0.2px;">History</div>
+                <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px; text-align: center; font-size: 0.62rem; font-family: var(--mono); color: var(--text-secondary); font-weight: 500; letter-spacing: 0.2px;">User input</div>
+                <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px; text-align: center; font-size: 0.62rem; font-family: var(--mono); color: var(--text-secondary); font-weight: 500; letter-spacing: 0.2px;">Smart algorithms</div>
+                <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px; text-align: center; font-size: 0.62rem; font-family: var(--mono); color: var(--text-secondary); font-weight: 500; letter-spacing: 0.2px;">Local RAG (Soon)</div>
+            </div>
+
+            <div style="width: 0; height: 28px; border-left: 2px dashed var(--border-light);"></div>
+
+            <!-- Core Layer -->
+            <div style="display: flex; gap: 20px; align-items: center; justify-content: center;">
+                <div style="width: 85px; height: 85px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 10px; font-family: var(--mono); text-align: center; padding: 10px; box-shadow: 0 8px 24px rgba(59, 130, 246, 0.25); border: 1px solid rgba(255, 255, 255, 0.1);">omni-cli</div>
+                <div style="width: 32px; height: 0; border-top: 2px dashed var(--border-light);"></div>
+                <div style="width: 85px; height: 85px; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 10px; font-family: var(--mono); text-align: center; padding: 10px; box-shadow: 0 8px 24px rgba(34, 197, 94, 0.25); border: 1px solid rgba(255, 255, 255, 0.1);">omni-app</div>
+                <div style="width: 32px; height: 0; border-top: 2px dashed var(--border-light);"></div>
+                <div style="width: 85px; height: 85px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 10px; font-family: var(--mono); text-align: center; padding: 10px; box-shadow: 0 8px 24px rgba(249, 115, 22, 0.25); border: 1px solid rgba(255, 255, 255, 0.1);">omni-ci</div>
+            </div>
+
+            <div style="width: 0; height: 28px; border-left: 2px dashed var(--border-light);"></div>
+
+            <!-- Integration Layer -->
+            <div style="display: flex; gap: 12px; align-items: center; justify-content: center;">
+                <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 6px; padding: 9px 20px; text-align: center; font-size: 0.62rem; font-family: var(--mono); color: var(--text-secondary); font-weight: 500;">Cursor</div>
+                <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 6px; padding: 9px 20px; text-align: center; font-size: 0.62rem; font-family: var(--mono); color: var(--text-secondary); font-weight: 500;">Claude-code</div>
+                <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 6px; padding: 9px 20px; text-align: center; font-size: 0.62rem; font-family: var(--mono); color: var(--text-secondary); font-weight: 500;">VSCode</div>
+            </div>
+
+            <div style="width: 0; height: 28px; border-left: 2px dashed var(--border-light);"></div>
+
+            <!-- GitHub Layer -->
+            <div style="display: flex; justify-content: center;">
+                <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 6px; padding: 9px 28px; text-align: center; font-size: 0.62rem; font-family: var(--mono); color: var(--text-secondary); font-weight: 500;">GitHub</div>
+            </div>
+        </div>
+
+        <p style="font-size: 0.55rem; color: var(--text-muted); font-family: var(--mono); letter-spacing: 0.4px; text-align: center; padding-top: 8px;">
+            <strong style="color: #22c55e; font-weight: 600;">Works where you work</strong> • 
+            <strong style="color: #22c55e; font-weight: 600;">One AI enricher system</strong> • 
+            <strong style="color: #22c55e; font-weight: 600;">Vibe-code chaos to sanity</strong>
+        </p>
+    </section>
+
+    <!-- SLIDE 4: SOLUTION LOW-LEVEL -->
+    <section class="slide">
+        <div class="header" style="gap: 12px;">
+            <h1 style="font-size: 2rem;">Omni <span class="heading-accent" style="color: #22c55e;">System</span></h1>
+        </div>
+
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 12px;">
+            <div style="display: flex; flex-direction: column; gap: 6px; flex: 1;">
+                <div style="font-size: 0.7rem; font-weight: 600; color: white; font-family: var(--mono); text-transform: uppercase; letter-spacing: 1px;">GUI-app (Windows, Linux, MacOS - x86 / ARM64)</div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; flex: 1;">
+                    <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: center; gap: 4px;">
+                        <h3 style="font-size: 0.75rem; font-weight: 600; color: #22c55e; margin: 0;">Commit Generator</h3>
+                        <p style="font-size: 0.65rem; color: var(--text-secondary); line-height: 1.35; margin: 0;">Derive and append the critical WHY from multiple contextual sources</p>
+                    </div>
+                    <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: center; gap: 4px;">
+                        <h3 style="font-size: 0.75rem; font-weight: 600; color: #22c55e; margin: 0;">Pull-Request Generator</h3>
+                        <p style="font-size: 0.65rem; color: var(--text-secondary); line-height: 1.35; margin: 0;">Go from the shallow what changed to the critical why it changed</p>
+                    </div>
+                    <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: center; gap: 4px;">
+                        <h3 style="font-size: 0.75rem; font-weight: 600; color: #22c55e; margin: 0;">Release Generator</h3>
+                        <p style="font-size: 0.65rem; color: var(--text-secondary); line-height: 1.35; margin: 0;">Create clean change-logs that surface what end-users care about and mutes what they don't</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 6px; flex: 1;">
+                <div style="font-size: 0.7rem; font-weight: 600; color: white; font-family: var(--mono); text-transform: uppercase; letter-spacing: 1px;">CLI (Command-Line Interface)</div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; flex: 1;">
+                    <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: center; gap: 4px;">
+                        <h3 style="font-size: 0.75rem; font-weight: 600; color: #22c55e; margin: 0;">Agent Terminal</h3>
+                        <p style="font-size: 0.65rem; color: var(--text-secondary); line-height: 1.35; margin: 0;">Instruct agents via .rules to use omni when interacting with git, or just for git description generation</p>
+                    </div>
+                    <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: center; gap: 4px;">
+                        <h3 style="font-size: 0.75rem; font-weight: 600; color: #22c55e; margin: 0;">CI Terminal</h3>
+                        <p style="font-size: 0.65rem; color: var(--text-secondary); line-height: 1.35; margin: 0;">Works out of the box with GitHub Action. Works with remote AI only. Works great with free remote AI</p>
+                    </div>
+                    <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: center; gap: 4px;">
+                        <h3 style="font-size: 0.75rem; font-weight: 600; color: #22c55e; margin: 0;">User Terminal</h3>
+                        <p style="font-size: 0.65rem; color: var(--text-secondary); line-height: 1.35; margin: 0;">Does everything the GUI app does. With CLI ergonomics. Excellent with AI terminals such as Warp</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 6px; flex: 1;">
+                <div style="font-size: 0.7rem; font-weight: 600; color: white; font-family: var(--mono); text-transform: uppercase; letter-spacing: 1px;">CI (Continuous Integration)</div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; flex: 1;">
+                    <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: center; gap: 4px;">
+                        <h3 style="font-size: 0.75rem; font-weight: 600; color: #22c55e; margin: 0;">Release Automations</h3>
+                        <p style="font-size: 0.65rem; color: var(--text-secondary); line-height: 1.35; margin: 0;">Uses GitHub Actions w/ CLI from curl and BYO key from GitHub secret</p>
+                    </div>
+                    <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: center; gap: 4px;">
+                        <h3 style="font-size: 0.75rem; font-weight: 600; color: #22c55e; margin: 0;">Crafted Change-logs</h3>
+                        <p style="font-size: 0.65rem; color: var(--text-secondary); line-height: 1.35; margin: 0;">Enrich releases with perfectly crafted change-logs based on the latest tag</p>
+                    </div>
+                    <div style="background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: center; gap: 4px;">
+                        <h3 style="font-size: 0.75rem; font-weight: 600; color: #22c55e; margin: 0;">User-Focused Output</h3>
+                        <p style="font-size: 0.65rem; color: var(--text-secondary); line-height: 1.35; margin: 0;">Surfaces info the end user cares about and mutes the rest</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 5: TRACTION -->
+    <section class="slide">
+        <div class="header">
+            <p class="subtitle">Market Validation</p>
+            <h1><span class="heading-accent">Product</span> Traction</h1>
+        </div>
+
+        <p class="description">Leading all day and winning by more than 100 upvotes. Proving product-market fit with only a partial 24-hour Hackathon solution.</p>
+
+        <div class="features-grid">
+            <div class="stat-block">
+                <p class="stat-value">100+</p>
+                <p class="stat-label">Upvotes at Launch</p>
+            </div>
+
+            <div class="stat-block">
+                <p class="stat-value">3</p>
+                <p class="stat-label">Core Features</p>
+            </div>
+
+            <div class="stat-block">
+                <p class="stat-value">6</p>
+                <p class="stat-label">Platform Support</p>
+            </div>
+        </div>
+
+        <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 16px;">From niche use case to GUI app, CLI, and CI solution with support for Ollama, AFM, and tier-1 LLMs.</p>
+
+        <p class="footer-text">Omni — Developer Intelligence Platform</p>
+    </section>
+
+    <!-- SLIDE 6: TECH STACK -->
+    <section class="slide">
+        <div class="header">
+            <p class="subtitle">Technology</p>
+            <h1><span class="heading-accent">Tech</span> Stack</h1>
+        </div>
+
+        <p class="description">Modern, scalable architecture built for developer experience and seamless integration with existing workflows.</p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <h2 class="feature-title">Frontend</h2>
+                <p class="feature-description">React + TypeScript for responsive UI with real-time feedback</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Backend</h2>
+                <p class="feature-description">Node.js with modular architecture for CLI and API</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">LLM Integration</h2>
+                <p class="feature-description">Support for Ollama, AFM, and tier-1 providers</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Git Interface</h2>
+                <p class="feature-description">Native git API integration for seamless enrichment</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">CI/CD</h2>
+                <p class="feature-description">GitHub Actions support for automated workflows</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Deployment</h2>
+                <p class="feature-description">Cloud-ready, local-first architecture</p>
+            </div>
+        </div>
+
+        <p class="footer-text">Omni — Developer Intelligence Platform</p>
+    </section>
+
+    <!-- SLIDE 7: LANDSCAPE -->
+    <section class="slide">
+        <div class="header">
+            <p class="subtitle">Market Analysis</p>
+            <h1><span class="heading-accent">Competitive</span> Landscape</h1>
+        </div>
+
+        <p class="description">Omni uniquely positions itself as the developer-first, free-first alternative with superior enrichment capabilities that don't require expensive tier-1 LLM APIs.</p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <h2 class="feature-title">Omni Advantage</h2>
+                <p class="feature-description">Superior free product with zero signup friction</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Works Locally</h2>
+                <p class="feature-description">Runs perfectly on M1-M5 without expensive APIs</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Universal</h2>
+                <p class="feature-description">Compatible across all developer tool combinations</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Network Effects</h2>
+                <p class="feature-description">Co-authored badges create viral adoption loops</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Bottom-Up Growth</h2>
+                <p class="feature-description">Developers adopt first, naturally trickling upward</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">100x Daily Uses</h2>
+                <p class="feature-description">Keeps Omni top-of-mind in developer workflows</p>
+            </div>
+        </div>
+
+        <p class="footer-text">Omni — Developer Intelligence Platform</p>
+    </section>
+
+    <!-- SLIDE 8: OPPORTUNITY -->
+    <section class="slide">
+        <div class="header">
+            <p class="subtitle">Market Opportunity</p>
+            <h1><span class="heading-accent">The</span> Opportunity</h1>
+        </div>
+
+        <p class="description">As AI agents become the default for code generation, the need for intelligent git enrichment is becoming critical infrastructure for modern development teams.</p>
+
+        <div class="features-grid">
+            <div class="stat-block">
+                <p class="stat-value">$50B+</p>
+                <p class="stat-label">Developer Tools Market</p>
+            </div>
+
+            <div class="stat-block">
+                <p class="stat-value">15M+</p>
+                <p class="stat-label">Active Developers</p>
+            </div>
+
+            <div class="stat-block">
+                <p class="stat-value">10x</p>
+                <p class="stat-label">Commit Growth</p>
+            </div>
+        </div>
+
+        <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 16px;">The shift to agentic development creates a massive TAM for solutions that tame git chaos and surface meaningful developer intelligence.</p>
+
+        <p class="footer-text">Omni — Developer Intelligence Platform</p>
+    </section>
+
+    <!-- SLIDE 9: USER/MARKET SEGMENTATION -->
+    <section class="slide">
+        <div class="header">
+            <p class="subtitle">Market Strategy</p>
+            <h1><span class="heading-accent">User</span> Segments</h1>
+        </div>
+
+        <p class="description">Omni — Developer Intelligence Platform: When you use Omni, your meta-data around your code improves. Over time this compounds and AI and humans are able to ship faster and better code.</p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <h2 class="feature-title">Individual Developers</h2>
+                <p class="feature-description">Solo developers using AI coding tools seeking better git history</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Development Teams</h2>
+                <p class="feature-description">Teams migrating to agentic coding needing collaboration features</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Enterprises</h2>
+                <p class="feature-description">Large organizations requiring compliance, security, and team management</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">DevOps/SRE</h2>
+                <p class="feature-description">Release management teams needing clean, auditable changelogs</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Code Review Teams</h2>
+                <p class="feature-description">QA and review teams drowning in noisy git histories</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Product Teams</h2>
+                <p class="feature-description">PM teams needing clear feature tracking and change documentation</p>
+            </div>
+        </div>
+
+        <p class="footer-text">Omni — Developer Intelligence Platform</p>
+    </section>
+
+    <!-- SLIDE 10: MONETIZATION -->
+    <section class="slide">
+        <div class="header">
+            <p class="subtitle">Revenue Strategy</p>
+            <h1><span class="heading-accent">Go-To</span> Market</h1>
+        </div>
+
+        <p class="description">Superior free option with GTM strategy that builds massive userbase at near-zero cost.</p>
+
+        <div class="features-grid">
+            <div class="stat-block">
+                <p class="stat-value">2-5%</p>
+                <p class="stat-label">Conversion Rate</p>
+            </div>
+
+            <div class="stat-block">
+                <p class="stat-value">$5-15</p>
+                <p class="stat-label">ARPU/Month</p>
+            </div>
+
+            <div class="stat-block">
+                <p class="stat-value">75%+</p>
+                <p class="stat-label">Gross Margin</p>
+            </div>
+        </div>
+
+        <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 16px;">Zero CAC through viral growth. Network effects compound with scale. Explosive growth through superior free product + strategic monetization.</p>
+
+        <p class="footer-text">Omni — Developer Intelligence Platform</p>
+    </section>
+
+    <!-- SLIDE 11: GTM STRATEGY -->
+    <section class="slide">
+        <div class="header">
+            <p class="subtitle">Growth Strategy</p>
+            <h1><span class="heading-accent">Go</span> to Market</h1>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <h2 class="feature-title">Zero Friction</h2>
+                <p class="feature-description">No signup, no credit card, installs in 2 seconds, setup in 2 clicks</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Bottom-Up Growth</h2>
+                <p class="feature-description">Devs adopt first, naturally trickling to enterprise</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Top of Mind</h2>
+                <p class="feature-description">100s of daily uses keeps Omni in developer workflow</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Co-Authored Badge</h2>
+                <p class="feature-description">Default badge on every commit, visible on GitHub profiles</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Local AI</h2>
+                <p class="feature-description">Runs perfectly on M1-M5 hardware without expensive APIs</p>
+            </div>
+
+            <div class="feature-card">
+                <h2 class="feature-title">Works Everywhere</h2>
+                <p class="feature-description">Compatible across all developer tool combinations</p>
+            </div>
+        </div>
+
+        <p class="footer-text">Omni — Developer Intelligence Platform</p>
+    </section>
+
+    <!-- SLIDE 12: PRICING -->
+    <section class="slide">
+        <div class="header">
+            <p class="subtitle">Monetization Model</p>
+            <h1><span class="heading-accent">Revenue</span> Model</h1>
+        </div>
+
+        <p class="description">Superior free option with GTM strategy that builds massive userbase at near-zero cost, enabling profitable upsell to a small fraction of users. Omni-cloud for enterprise will be introduced at a later time.</p>
+
+        <div style="flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 24px;">
+            <div>
+                <h2 style="font-size: 1rem; font-weight: 600; color: var(--green); margin-bottom: 16px;">Free Tier</h2>
+                <div class="list-item">Full core features</div>
+                <div class="list-item">Local LLM support</div>
+                <div class="list-item">Unlimited repositories</div>
+                <div class="list-item">Community support</div>
+            </div>
+
+            <div>
+                <h2 style="font-size: 1rem; font-weight: 600; color: var(--orange); margin-bottom: 16px;">Premium Tiers</h2>
+                <div class="list-item">Remote LLM subscription</div>
+                <div class="list-item">Team collaboration</div>
+                <div class="list-item">Enterprise integrations</div>
+                <div class="list-item">Priority support</div>
+            </div>
+        </div>
+
+        <p class="footer-text">Omni — Developer Intelligence Platform</p>
+    </section>
+
+    <!-- SLIDE 13: NORTHSTAR -->
+    <section class="slide">
+        <div class="header">
+            <p class="subtitle">Success Metrics</p>
+            <h1><span class="heading-accent">North</span> Star</h1>
+        </div>
+
+        <p class="description">Our primary metric is code metadata quality improvement over time, enabling both AI and human developers to ship faster, better code with complete context and meaningful history.</p>
+
+        <div style="flex: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 24px;">
+            <div class="stat-block">
+                <p class="stat-value" style="font-size: 1.5rem; color: var(--green);">↑ 50%</p>
+                <p class="stat-label">Code Quality Metrics</p>
+            </div>
+
+            <div class="stat-block">
+                <p class="stat-value" style="font-size: 1.5rem; color: var(--blue);">↓ 80%</p>
+                <p class="stat-label">Review Time</p>
+            </div>
+
+            <div class="stat-block">
+                <p class="stat-value" style="font-size: 1.5rem; color: var(--purple);">↑ 3x</p>
+                <p class="stat-label">Developer Velocity</p>
+            </div>
+        </div>
+
+        <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 24px;">Daily active usage compounding with growing code intelligence creates a defensible moat and network effects.</p>
+
+        <p class="footer-text">Omni — Developer Intelligence Platform</p>
+    </section>
+
+    <!-- SLIDE 14: FUNDING -->
+    <section class="slide">
+        <div class="header">
+            <p class="subtitle">Capital Raise</p>
+            <h1><span class="heading-accent">Project</span> Funding</h1>
+        </div>
+
+        <div style="flex: 1; margin-top: 16px;">
+            <div style="margin-bottom: 24px;">
+                <h2 style="font-size: 1rem; font-weight: 600; color: var(--orange); margin-bottom: 8px;">Funding Goal</h2>
+                <p style="font-size: 1.3rem; color: var(--orange); font-weight: 600; margin: 0;">$500K · 12-Month Runway</p>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <h2 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 12px;">Budget Allocation</h2>
+                <table class="budget-table">
+                    <tr>
+                        <td>Salaries (6 people)</td>
+                        <td>$300K</td>
+                    </tr>
+                    <tr>
+                        <td>Office + HW/SW (Mesh Oslo)</td>
+                        <td>$70K</td>
+                    </tr>
+                    <tr>
+                        <td>Marketing & Admin</td>
+                        <td>$130K</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div>
+                <h2 style="font-size: 1rem; font-weight: 600; color: var(--green); margin-bottom: 12px;">12-Month Roadmap</h2>
+                <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+                    <strong>Months 1-3:</strong> Paid RAG tier, Linear/Jira/Confluence connectors<br>
+                    <strong>Months 4-6:</strong> Remote LLM subscription, VS Code extension<br>
+                    <strong>Months 7-9:</strong> Cloud RAG for CI/CD, GitHub Marketplace<br>
+                    <strong>Months 10-12:</strong> Enterprise cloud, team features, SOC2 compliance
+                </p>
+            </div>
+        </div>
+
+        <p class="footer-text">Omni — Developer Intelligence Platform</p>
+    </section>
+
+    <!-- SLIDE 15: THE BET -->
+    <section class="slide">
+        <div class="cover-slide">
+            <h1 class="title-large" style="font-size: 3rem;">The Bet</h1>
+            <p class="description">As AI agents become the default for software development, intelligent git enrichment becomes critical infrastructure for every developer and organization.</p>
+            <p class="description" style="font-size: 1.2rem; font-weight: 600; color: var(--orange); margin-top: 32px;">Omni wins by being free-first, developer-first, and universally compatible.</p>
+        </div>
+        <div class="footer">
+            <a href="https://edgeleap.github.io/omni_landing_page/" target="_blank" rel="noopener noreferrer">https://edgeleap.github.io/omni_landing_page/</a>
+        </div>
+    </section>
+
+</body>
+</html>
