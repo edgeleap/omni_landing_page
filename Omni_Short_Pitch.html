@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html data-theme="dark" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omni - Short Pitch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            --sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+            --radius: 10px;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #09090b;
+            --bg-tertiary: #141414;
+            --bg-hover: #1a1a1a;
+            --border: #27272a;
+            --border-light: #3f3f46;
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --accent: #fafafa;
+            --green: #22c55e;
+            --orange: #fb923c;
+            --blue: #3b82f6;
+            --body-gradient: linear-gradient(to bottom, #0a0a0a, #141414);
+            --surface-card: rgba(20, 20, 20, 0.7);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--sans);
+            background: var(--body-gradient);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .slide {
+            width: 960px;
+            height: 540px;
+            margin: 40px auto;
+            display: flex;
+            flex-direction: column;
+            padding: 48px;
+            background: var(--surface-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            gap: 20px;
+        }
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+            margin: 0;
+        }
+
+        .heading-accent {
+            color: var(--orange);
+        }
+
+        .heading-accent.green {
+            color: var(--green);
+        }
+
+        .heading-accent.blue {
+            color: var(--blue);
+        }
+
+        .subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: var(--mono);
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-height: 0;
+            overflow: visible;
+        }
+
+        .bullets {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .bullets li {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding-left: 16px;
+            position: relative;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .bullets li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--orange);
+            font-weight: 600;
+        }
+
+        .bullets.green li:before {
+            color: var(--green);
+        }
+        
+        .bullets.gray li:before {
+            color: var(--text-secondary);
+        }
+
+        .bullets.blue li:before {
+            color: var(--blue);
+        }
+
+        .bullets li strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .comparison-card {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .comparison-card:hover {
+            background: var(--bg-hover);
+            border-color: var(--orange);
+        }
+
+        .comparison-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-family: var(--mono);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .comparison-text {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .outcome-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .outcome-list li {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding-left: 16px;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .outcome-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--orange);
+            font-weight: 600;
+        }
+
+        .highlight-box {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 8px;
+        }
+
+        .highlight-box .section-title {
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .footer-text {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-family: var(--mono);
+            letter-spacing: 0.5px;
+            text-align: center;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+<!-- SLIDE 1: PROBLEM -->
+<section class="slide">
+    <div class="header">
+        <h1><span class="heading-accent">Problem</span></h1>
+    </div>
+    <div class="content-wrapper">
+        <div>
+            <p class="section-title">The Problem (in short)</p>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px;">When using AI to write code, this happens:</p>
+            <div style="display: flex; align-items: center; gap: 8px; margin-top: 16px;">
+                <div style="flex: 1; background: rgba(251, 146, 60, 0.15); border: 1px solid rgba(251, 146, 60, 0.4); border-radius: 8px; padding: 12px; text-align: center;">
+                    <p style="font-size: 0.75rem; color: var(--orange); font-weight: 600; margin-bottom: 4px;">1</p>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4;">AI saves too many small changes</p>
+                </div>
+                <p style="color: var(--orange); font-size: 1.2rem; font-weight: 600;">→</p>
+                <div style="flex: 1; background: rgba(251, 146, 60, 0.15); border: 1px solid rgba(251, 146, 60, 0.4); border-radius: 8px; padding: 12px; text-align: center;">
+                    <p style="font-size: 0.75rem; color: var(--orange); font-weight: 600; margin-bottom: 4px;">2</p>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4;">Each change gets a poor explanation</p>
+                </div>
+                <p style="color: var(--orange); font-size: 1.2rem; font-weight: 600;">→</p>
+                <div style="flex: 1; background: rgba(251, 146, 60, 0.15); border: 1px solid rgba(251, 146, 60, 0.4); border-radius: 8px; padding: 12px; text-align: center;">
+                    <p style="font-size: 0.75rem; color: var(--orange); font-weight: 600; margin-bottom: 4px;">3</p>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4;">No one remembers why something was done</p>
+                </div>
+                <p style="color: var(--orange); font-size: 1.2rem; font-weight: 600;">→</p>
+                <div style="flex: 1; background: rgba(251, 146, 60, 0.15); border: 1px solid rgba(251, 146, 60, 0.4); border-radius: 8px; padding: 12px; text-align: center;">
+                    <p style="font-size: 0.75rem; color: var(--orange); font-weight: 600; margin-bottom: 4px;">4</p>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4;">The result is mess and chaos in the project's history</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="highlight-box">
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
+                <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
+                    <strong style="color: var(--text-primary);">Before:</strong> A human made 10 tidy changes with good explanations
+                </p>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
+                    <strong style="color: var(--text-primary);">Now:</strong> AI creates 100+ small changes with poor explanations
+                </p>
+            </div>
+            
+            <div>
+                <p class="section-title">It becomes:</p>
+                <ul class="outcome-list">
+                    <li style="color: var(--orange);">hard to understand</li>
+                    <li style="color: var(--orange);">hard to control</li>
+                    <li style="color: var(--orange);">hard to trust</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SLIDE 2: SOLUTION -->
+<section class="slide">
+    <div class="header">
+        <h1><span class="heading-accent green">Solution</span></h1>
+    </div>
+    <div class="content-wrapper">
+        <div>
+            <p class="section-title">What Omni Is (very simply)</p>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px;">Omni is like a smart secretary for code work:</p>
+            <div style="display: flex; align-items: stretch; gap: 8px; margin-top: 16px;">
+                <div style="flex: 1; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4); border-radius: 8px; padding: 12px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+                    <p style="font-size: 0.75rem; color: var(--green); font-weight: 600; margin-bottom: 4px;">1</p>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4;">sees what was changed</p>
+                </div>
+                <p style="color: var(--green); font-size: 1.2rem; font-weight: 600; display: flex; align-items: center;">→</p>
+                <div style="flex: 1; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4); border-radius: 8px; padding: 12px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+                    <p style="font-size: 0.75rem; color: var(--green); font-weight: 600; margin-bottom: 4px;">2</p>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4;">sees why it was done</p>
+                </div>
+                <p style="color: var(--green); font-size: 1.2rem; font-weight: 600; display: flex; align-items: center;">→</p>
+                <div style="flex: 1; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4); border-radius: 8px; padding: 12px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+                    <p style="font-size: 0.75rem; color: var(--green); font-weight: 600; margin-bottom: 4px;">3</p>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4;">gathers information from multiple places</p>
+                </div>
+                <p style="color: var(--green); font-size: 1.2rem; font-weight: 600; display: flex; align-items: center;">→</p>
+                <div style="flex: 1; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4); border-radius: 8px; padding: 12px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+                    <p style="font-size: 0.75rem; color: var(--green); font-weight: 600; margin-bottom: 4px;">4</p>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4;">tidies up before it's saved</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="highlight-box">
+            <p class="section-title">What Omni Actually Does</p>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px;">
+                <strong style="color: var(--text-primary);">Instead of:</strong> "Changed some code"<br>
+                <strong style="color: var(--text-primary);">Omni ensures:</strong> "This was changed because we needed to fix X, solve Y, and support Z"
+            </p>
+            <ul class="bullets green">
+                <li style="color: var(--green);">merges many small changes into fewer, tidy ones</li>
+                <li style="color: var(--green);">adds explanations that humans understand</li>
+                <li style="color: var(--green);">preserves the decisions, not just the changes</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- SLIDE 3: RESULT -->
+<section class="slide">
+    <div class="header">
+        <h1>Result</h1>
+    </div>
+    <div class="content-wrapper">
+        <div>
+            <p class="section-title">Simple Mental Image</p>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px;">Think of it this way:</p>
+            <p style="font-size: 0.85rem; color: var(--text-primary); line-height: 1.6; margin-bottom: 8px; font-weight: 600;">
+                - AI is a very fast but forgetful coworker with short memory
+            </p>
+            <p style="font-size: 0.85rem; color: var(--text-primary); line-height: 1.6; margin-bottom: 12px; font-weight: 600;">
+                - Omni is the adult in the room who:
+            </p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; padding-left: 20px;">
+                <li style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">1. remembers the context</li>
+                <li style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">2. writes good notes</li>
+                <li style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">3. tidies up before anything is archived</li>
+            </ul>
+        </div>
+        
+        <div class="highlight-box">
+            <p class="section-title">The Result</p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0;">
+                <li style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">- Less mess</li>
+                <li style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">- Fewer, better changes</li>
+                <li style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">- Easier to understand what happened</li>
+                <li style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">- Easier to collaborate</li>
+                <li style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">- Less stress</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
