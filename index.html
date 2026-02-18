@@ -202,6 +202,13 @@
 
         .hero-buttons {
             display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .hero-buttons .button-row {
+            display: flex;
             gap: 0.75rem;
             flex-wrap: wrap;
             align-items: center;
@@ -419,8 +426,17 @@
 
         .cta-buttons {
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .cta-buttons .button-row {
+            display: flex;
             justify-content: center;
             gap: 0.75rem;
+            flex-wrap: wrap;
+            align-items: center;
         }
 
         footer {
@@ -1046,7 +1062,10 @@
                         Go from what changed to why it matters.
                     </p>
                     <div class="hero-buttons">
-                        <a href="#" class="btn btn-default" onclick="copyInstallCommand(event)">Copy curl</a>
+                        <div class="button-row">
+                            <a href="#" class="btn btn-default" onclick="copyInstallCommand(event)">Copy curl for Humans+Agents</a>
+                            <a href="#" class="btn btn-outline" onclick="copyCliInstallCommand(event)">Copy curl for CI/CD</a>
+                        </div>
                         <a href="https://github.com/edgeleap/omni/releases" class="btn btn-outline">Change-log</a>
                     </div>
                 </div>
@@ -1412,7 +1431,10 @@ Closes #1847</pre>
                 <h2>Ready to get started?</h2>
                 <p>Install in seconds. For Mac, Linux and Windows.</p>
                 <div class="cta-buttons">
-                    <a href="#" class="btn btn-default" onclick="copyInstallCommand(event)">Copy curl</a>
+                    <div class="button-row">
+                        <a href="#" class="btn btn-default" onclick="copyInstallCommand(event)">Copy curl for Humans+Agents</a>
+                        <a href="#" class="btn btn-outline" onclick="copyCliInstallCommand(event)">Copy curl for CI/CD</a>
+                    </div>
                     <a href="https://github.com/edgeleap/omni/releases" class="btn btn-outline">Change-log</a>
                 </div>
             </div>
@@ -1441,6 +1463,13 @@ Closes #1847</pre>
             windows: 'irm https://edgeleap.github.io/omni.ps1 | iex'
         };
 
+        // CLI-only install commands for different operating systems
+        const cliInstallCommands = {
+            mac: 'curl -fsSL https://edgeleap.github.io/omni.sh | bash -s -- --cli',
+            linux: 'curl -fsSL https://edgeleap.github.io/omni.sh | bash -s -- --cli',
+            windows: 'powershell -NoProfile -ExecutionPolicy Bypass -Command "& { iwr -useb https://edgeleap.github.io/omni.ps1 | iex }" --% --cli'
+        };
+
         // Detect user's operating system
         function detectOS() {
             const userAgent = navigator.userAgent.toLowerCase();
@@ -1458,24 +1487,34 @@ Closes #1847</pre>
             return 'mac';
         }
 
+        function copyTextToClipboard(text) {
+            return navigator.clipboard.writeText(text).catch(() => {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+            });
+        }
+
         // Copy install command to clipboard (auto-detects OS)
         function copyInstallCommand(event) {
             event.preventDefault();
             const os = detectOS();
             const command = installCommands[os];
-            
-            navigator.clipboard.writeText(command).then(() => {
-                showToast();
-            }).catch(err => {
-                // Fallback for older browsers
-                const textarea = document.createElement('textarea');
-                textarea.value = command;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                showToast();
-            });
+
+            copyTextToClipboard(command).then(() => showToast());
+        }
+
+        // Copy CLI-only install command to clipboard (auto-detects OS)
+        function copyCliInstallCommand(event) {
+            event.preventDefault();
+            const os = detectOS();
+            const command = cliInstallCommands[os];
+
+            copyTextToClipboard(command).then(() => showToast());
         }
 
         // Show toast notification
